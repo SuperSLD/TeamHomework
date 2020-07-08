@@ -8,6 +8,8 @@
  * @brief MainWindow::MainWindow
  * @param parent
  *
+ * Класс главного окна приложения.
+ * 
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 class MainWindow : public QMainWindow{
