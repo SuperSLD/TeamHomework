@@ -3,4 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    
+    <servlet>
+        <servlet-name>authorisation</servlet-name>
+        <servlet-class>Servlets.AuthorisationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>authorisation</servlet-name>
+        <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>dbEditor</servlet-name>
+        <servlet-class>Servlets.DBEditorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dbEditor</servlet-name>
+        <url-pattern>/editor</url-pattern>
+    </servlet-mapping>
+
 </web-app>

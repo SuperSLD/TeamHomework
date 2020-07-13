@@ -22,7 +22,6 @@ public class DBConnector {
             Properties properties = new Properties();
             properties.load(inputStream);
 
-            System.out.println(properties.getProperty("db_class_name"));
             Class.forName(properties.getProperty("db_class_name"));
 
             con = DriverManager.getConnection(properties.getProperty("connection"), properties);
@@ -63,15 +62,11 @@ public class DBConnector {
      * @param q строка запроса.
      * @return Количество измененных записей.
      */
-    public static long executeUpdate(String q) {
+    public static long executeUpdate(String q) throws SQLException {
         if (con == null || !isOpen()) init();
         long count = 0;
-        try {
-            Statement st = con.createStatement();
-            count += st.executeUpdate(q);
-        } catch (Exception e) {
-            e.printStackTrace();
-        };
+        Statement st = con.createStatement();
+        count += st.executeUpdate(q);
         return count;
     }
 }
