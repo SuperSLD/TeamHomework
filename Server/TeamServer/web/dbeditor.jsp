@@ -8,7 +8,6 @@
     <script>
         document.contextPath = "${pageContext.request.contextPath}";
     </script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/BicycleCode.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/db_editor.js"></script>
 </head>
 <header>
