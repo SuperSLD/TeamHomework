@@ -2,3 +2,4 @@
 Server/TeamServer/.idea/
 Server/TeamServer/out/
 Client/build-QtClient-Desktop_Qt_5_12_4_MinGW_64_bit-Debug/
+Client/QtClient/QtClient.pro.user
