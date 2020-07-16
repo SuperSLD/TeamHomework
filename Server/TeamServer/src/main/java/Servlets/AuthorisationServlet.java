@@ -47,8 +47,8 @@ public class AuthorisationServlet extends HttpServlet {
                 if (encryptedPassword.equals(rs.getString("password"))) {
                     jsonObject.put("errcode", "0");
                     jsonObject.put("id", rs.getString("id"));
-                    jsonObject.put("name", URLDecoder.decode(rs.getString("name"), "UTF-8"));
-                    jsonObject.put("lastname", URLDecoder.decode(rs.getString("lastname"), "UTF-8"));
+                    jsonObject.put("name", rs.getString("name"));
+                    jsonObject.put("lastname", rs.getString("lastname"));
                     jsonObject.put("email", rs.getString("email"));
                     jsonObject.put("password", encryptedPassword);
                     System.out.println("user connect: " + URLDecoder.decode(rs.getString("name"), "WINDOWS-1251") + " | "

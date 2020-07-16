@@ -87,7 +87,7 @@
                <string notr="true">color: rgb(255, 255, 255);</string>
               </property>
               <property name="text">
-               <string>Login:</string>
+               <string>Email:</string>
               </property>
              </widget>
             </item>
@@ -217,7 +217,7 @@ background-color: rgb(86, 86, 86);</string>
            <string notr="true">color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
-           <string>WorkTeam</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#03dac5; font-family:arial;&quot;&gt;Work&lt;/span&gt;&lt;span style=&quot; color:white; font-family:arial;&quot;&gt;Team&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -297,7 +297,7 @@ background-color: rgb(86, 86, 86);</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

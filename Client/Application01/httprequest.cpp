@@ -1,11 +1,5 @@
 #include "httprequest.h"
 
-#define _WIN32_WINNT 0x0A00
-#define BOOST_DATE_TIME_NO_LIB
-#define BOOST_REGEX_NO_LIB
-
-#include <iostream>
-
 /**
  * @brief HTTPRequest::HTTPRequest
  * @param url адрес.
@@ -18,7 +12,12 @@ HTTPRequest::HTTPRequest(std::string url, int timeOut) {
     this->timeOut = timeOut;
 }
 
+/**
+ * @brief get
+ * @param sring окончание адреса запроса.
+ * @return строка полученная с сервера.
+ */
 std::string get(std::string sring) {
-
+    //TODO: написать реализацию метода.
     return nullptr;
 }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -37,10 +38,10 @@ public class DBEditorServlet extends HttpServlet {
         try {
             if (act != null) switch (act) {
                 case "create_user":
-                    if (req.getParameter("name") != null || req.getParameter("name").length() != 0 ||
-                            req.getParameter("lastname") != null || req.getParameter("lastname").length() != 0 ||
-                            req.getParameter("email") != null || req.getParameter("email").length() != 0 ||
-                            req.getParameter("password") != null || req.getParameter("password").length() != 0) {
+                    if (req.getParameter("name") != null && req.getParameter("name").length() > 2 &&
+                            req.getParameter("lastname") != null && req.getParameter("lastname").length() > 2 &&
+                            req.getParameter("email") != null && req.getParameter("email").length() > 2 &&
+                            req.getParameter("password") != null && req.getParameter("password").length() > 2) {
 
                         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
                         messageDigest.update(req.getParameter("password").getBytes());
@@ -50,17 +51,13 @@ public class DBEditorServlet extends HttpServlet {
                         System.out.println("password " +req.getParameter("password"));
                         System.out.println("password sha256 " + encryptedPassword);
 
-                        long n = 0;
-                        try {
-                            n = DBConnector.executeUpdate(
-                                    "INSERT users VALUE (0, '" + URLEncoder.encode(req.getParameter("name"), "UTF-8") +
-                                            "', '" + URLEncoder.encode(req.getParameter("lastname"), "UTF-8") + "'," +
+                        ResultSet rs = DBConnector.executeQuery("SELECT id FROM users WHERE email='"+req.getParameter("email")+"'");
+                        if (!rs.next()) {
+                            DBConnector.executeUpdate(
+                                    "INSERT users VALUE (0, '" + req.getParameter("name") +
+                                            "', '" + req.getParameter("lastname") + "'," +
                                             " '" + req.getParameter("email") + "', '" + encryptedPassword + "')"
                             );
-                        } catch (SQLException ex) {
-
-                        }
-                        if (n != 0) {
                             jsonObject.put("err_code", "0");
                             jsonObject.put("err_message", "Пользователь успешно добавлен.");
                             jsonObject.put("err_local", "все норм");
