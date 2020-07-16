@@ -26,6 +26,9 @@ function createUser() {
         }
 
         console.log(this.responseText);
+        var object = JSON.parse(this.responseText);
+        console.log(object);
+        alert(object.err_message + "\n\nError code: " + object.err_code + "\n" + object.err_local);
     }
 }
 

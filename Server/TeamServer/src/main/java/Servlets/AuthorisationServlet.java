@@ -23,6 +23,10 @@ import java.sql.ResultSet;
 public class AuthorisationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/json; charset=windows-1251");
+
         JSONObject jsonObject = new JSONObject();
         PrintWriter writer = resp.getWriter();
 
@@ -34,6 +38,11 @@ public class AuthorisationServlet extends HttpServlet {
                 MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
                 messageDigest.update(req.getParameter("password").getBytes());
                 String encryptedPassword = new String(messageDigest.digest());
+                encryptedPassword = URLEncoder.encode(encryptedPassword, "UTF-8");
+
+                System.out.println("password " +req.getParameter("password"));
+                System.out.println("password sha256 " + encryptedPassword);
+                System.out.println("password sha256 " + rs.getString("password"));
 
                 if (encryptedPassword.equals(rs.getString("password"))) {
                     jsonObject.put("errcode", "0");
