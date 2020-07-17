@@ -26,10 +26,6 @@ SecondWindow::~SecondWindow(){
     delete webSocket;
 }
 
-void SecondWindow::on_pushButton_2_clicked(){
-    QApplication::quit();
-}
-
 void SecondWindow::on_pushButton_clicked(){
     ui->label_4->setText("Здесь скоро появятся Файлы");
 }
