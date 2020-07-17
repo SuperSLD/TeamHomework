@@ -3,6 +3,8 @@
 #include "secondwindow.h"
 #include "httprequest.h"
 #include <QMessageBox>
+#include <QPixmap>
+#include <QPalette>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -18,10 +20,45 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/**
+ * @brief MainWindow::resizeEvent
+ * @param event
+ *
+ * Установка фонового изображения на окно авторизации.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QPixmap bkgnd(":/resc/resc/back_login.png");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, bkgnd);
+    this->setPalette(palette);
+
+    QMainWindow::resizeEvent(event);
+}
+
+/**
+ * @brief MainWindow::on_pushButton_2_clicked
+ *
+ * Выполняется при нажатии кнопки Выход.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
+
 void MainWindow::on_pushButton_2_clicked()
 {
-   QApplication::quit();
-}
+   QApplication::quit();}
+
+/**
+ * @brief MainWindow::on_pushButton_clicked
+ *
+ * Выполняется при нажатии кнопки Вход.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -30,6 +67,7 @@ void MainWindow::on_pushButton_clicked()
 
     //HTTPRequest *req = new HTTPRequest("jutter.online", 1000);
     //std::string resp = req->get("auth?email="+login.toStdString()+"&password="+password.toStdString());
+
 
     if ((login=="user1" && password=="test") || (login=="user2" && password=="happy"))
      {

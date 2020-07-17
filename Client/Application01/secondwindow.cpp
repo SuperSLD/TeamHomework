@@ -1,9 +1,16 @@
 #include "secondwindow.h"
 #include "ui_secondwindow.h"
-
 #include <QJsonDocument>
 #include <QJsonObject>
 
+/**
+ * @brief SecondWindow::SecondWindow
+ * @param parent
+ *
+ * Создание окна главного меню. Выпонляется при успешной авторизации.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
 SecondWindow::SecondWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::SecondWindow){
