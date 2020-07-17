@@ -26,19 +26,55 @@ SecondWindow::~SecondWindow(){
     delete webSocket;
 }
 
-void SecondWindow::on_pushButton_2_clicked(){
+/**
+ * @brief SecondWindow::on_pushButton_2_clicked
+ *
+ * Выполняется при нажатии кнопки Выход.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
+
+void SecondWindow::on_pushButton_2_clicked()
+{
     QApplication::quit();
 }
 
-void SecondWindow::on_pushButton_clicked(){
+/**
+ * @brief SecondWindow::on_pushButton_clicked
+ *
+ * Выполняется при нажатии кнопки Файлы.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
+
+void SecondWindow::on_pushButton_clicked()
+{
     ui->label_4->setText("Здесь скоро появятся Файлы");
 }
 
-void SecondWindow::on_pushButton_4_clicked(){
+/**
+ * @brief SecondWindow::on_pushButton_4_clicked
+ *
+ * Выполняется при нажатии кнопки Сообщения.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
+
+void SecondWindow::on_pushButton_4_clicked()
+{
     ui->label_4->setText("Здесь скоро появятся Сообщения");
 }
 
-void SecondWindow::on_pushButton_3_clicked(){
+/**
+ * @brief SecondWindow::on_pushButton_3_clicked
+ *
+ * Выполняется при нажатии кнопки Задачи.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
+
+void SecondWindow::on_pushButton_3_clicked()
+{
     ui->label_4->setText("Здесь скоро появятся Задачи");
 }
 
