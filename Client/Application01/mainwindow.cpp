@@ -3,7 +3,7 @@
 #include "secondwindow.h"
 #include "httprequest.h"
 #include <QMessageBox>
-
+#include "property.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

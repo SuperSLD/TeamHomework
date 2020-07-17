@@ -1,6 +1,6 @@
 #include "secondwindow.h"
 #include "ui_secondwindow.h"
-
+#include "property.h"
 SecondWindow::SecondWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::SecondWindow)

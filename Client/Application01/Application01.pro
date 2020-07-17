@@ -1,5 +1,6 @@
 QT       += core gui
 QT += network
+QT += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,11 +21,13 @@ SOURCES += \
     httprequest.cpp \
     main.cpp \
     mainwindow.cpp \
+    property.cpp \
     secondwindow.cpp
 
 HEADERS += \
     httprequest.h \
     mainwindow.h \
+    property.h \
     secondwindow.h
 
 FORMS += \
