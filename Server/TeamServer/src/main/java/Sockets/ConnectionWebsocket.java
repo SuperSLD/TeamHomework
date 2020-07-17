@@ -11,10 +11,11 @@ public class ConnectionWebsocket {
     private static Thread ping = new Thread(() -> {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("message", "test ping message");
+        jsonObject.put("type", "ping");
         long pingCount = 0;
         while (true) {
             try {
-                jsonObject.put("count", pingCount);
+                jsonObject.put("count", Long.toString(pingCount));
                 pingCount++;
                 for (Session session : connections) {
                     session.getBasicRemote().sendText(jsonObject.toString());
