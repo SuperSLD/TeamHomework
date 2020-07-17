@@ -22,6 +22,7 @@ Property::Property()
 }
 
 void Property::put(QString name, QString value, QSqlQuery query){
+  //put(имя строки, значение строки, тут всегда писать query)
   query.prepare("INSERT INTO Settings( Name, Value ) "
                 "VALUES( ?, ? )");
 
@@ -32,10 +33,11 @@ void Property::put(QString name, QString value, QSqlQuery query){
       }
 }
 QString Property::get(QString name, QSqlQuery query)
+//get(имя строки, тут всегда писать query)
 {
   if( !query.exec( "SELECT * FROM Settings" ) ) {
           qDebug() << db.lastError().text();
       }
   query.exec("SELECT * FROM Settings WHERE Name LIKE name");
-
+//тут дописать кусок на возвращение значения по поиску через select
 }
