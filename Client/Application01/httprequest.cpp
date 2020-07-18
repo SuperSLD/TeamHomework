@@ -1,4 +1,6 @@
 #include "httprequest.h"
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 /**
  * @brief HTTPRequest::HTTPRequest
@@ -19,5 +21,11 @@ HTTPRequest::HTTPRequest(std::string url, int timeOut) {
  */
 std::string get(std::string sring) {
     //TODO: написать реализацию метода.
+
+    /*
+    QNetworkAccessManager* manager = new QNetworkAccessManager();
+    QNetworkReply *response = manager->get(QNetworkRequest(QUrl("https://yandex.ru/")));
+    */
+
     return nullptr;
 }
