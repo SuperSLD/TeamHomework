@@ -1,5 +1,6 @@
 #include "secondwindow.h"
 #include "ui_secondwindow.h"
+#include "property.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 

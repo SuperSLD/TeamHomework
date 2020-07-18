@@ -3,6 +3,8 @@
 #include "secondwindow.h"
 #include "httprequest.h"
 #include <QMessageBox>
+#include "property.h"
+
 #include <QPixmap>
 #include <QPalette>
 
