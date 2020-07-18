@@ -7,6 +7,13 @@
 #include <QSqlRecord>
 #include <QSqlError>
 #include <QSqlTableModel>
+/**
+ * @brief The Property class
+ *
+ * Класс создания БД с функциями внесения данных put и поиска get.
+ * 
+ * @author Skok Vyacheslav(pthfnd@mail.ru)
+ */
 class Property
 {
  
@@ -14,7 +21,7 @@ public:
   Property();
 
   void put(QString name, QString value, QSqlQuery query);
-  QString get(QString name);
+  QString get(QString name, QSqlQuery query);
 
 private:
   QSqlDatabase db;

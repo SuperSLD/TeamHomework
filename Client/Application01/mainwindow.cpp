@@ -118,14 +118,20 @@ void MainWindow::onResult(QNetworkReply *reply)
         } else {
             qDebug() << "Invalid JSON...\n" << endl;
         }
-        if (email == obj["email"].toString() && email.length() > 5) {
-            hide();
-            secwindow = new SecondWindow();
-            connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
-            secwindow->show();
-            this->close();
-        } else {
-          QMessageBox::warning(this, "Ошибка", "Неверный логин или пароль!");
+        if (obj["errcode"].toString() == "0") {
+            if (email == obj["email"].toString() && email.length() > 5) {
+                hide();
+                secwindow = new SecondWindow();
+                connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
+                secwindow->show();
+                this->close();
+            }
+        } else if (obj["errcode"].toString() == "1"){
+            QMessageBox::warning(this, "Ошибка", "Почта не найдена!");
+        } else if (obj["errcode"].toString() == "2"){
+            QMessageBox::warning(this, "Ошибка", "Неверный пароль!");
+        } else if (obj["errcode"].toString() == "3"){
+            QMessageBox::warning(this, "Ошибка", "Произошла неизвестная ошибка на сервере!");
         }
     }
     reply->deleteLater();
