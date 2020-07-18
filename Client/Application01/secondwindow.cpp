@@ -128,8 +128,6 @@ void SecondWindow::onMessage(QString string) {
 
     if (messasgeType == "ping") {
         //обработка тестового пинг сообщения.
-        qDebug() << "WebSocket подключен\nколичество пинг сообщений:"
-                             + obj["count"].toString() + "\nсообщение: " + obj["message"].toString() << endl;
     } else if (messasgeType == "group_message") {
         //обработка сообщения группового чата.
     }
