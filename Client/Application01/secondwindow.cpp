@@ -2,6 +2,12 @@
 #include "ui_secondwindow.h"
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QTime>
+
+QString Name="Ivan";
+QString Suname="Ivanov";
+QString Mail="IvanIvanov@mail.ru";
+bool person=false;
 
 /**
  * @brief SecondWindow::SecondWindow
@@ -21,6 +27,9 @@ SecondWindow::SecondWindow(QWidget *parent) :
     int h = ui->label_5->height();
 
     ui->label_5->setPixmap(pix1.scaled(w, h, Qt::KeepAspectRatio));
+    ui->label_3->setText(Name);
+    ui->label->setText(Suname);
+    ui->label_2->setText(Mail);
 
     webSocket  = new QWebSocket();
     webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
@@ -56,7 +65,8 @@ void SecondWindow::on_pushButton_2_clicked()
 
 void SecondWindow::on_pushButton_clicked()
 {
-    ui->label_4->setText("Здесь скоро появятся Файлы");
+    ui->label_6->setText("Здесь скоро появятся Файлы");
+    ui->stackedWidget->setCurrentIndex(1);
 }
 
 /**
@@ -69,7 +79,7 @@ void SecondWindow::on_pushButton_clicked()
 
 void SecondWindow::on_pushButton_4_clicked()
 {
-    ui->label_4->setText("Здесь скоро появятся Сообщения");
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 /**
@@ -82,7 +92,8 @@ void SecondWindow::on_pushButton_4_clicked()
 
 void SecondWindow::on_pushButton_3_clicked()
 {
-    ui->label_4->setText("Здесь скоро появятся Задачи");
+    ui->label_7->setText("Здесь скоро появятся Задачи");
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 /**
@@ -93,6 +104,7 @@ void SecondWindow::on_pushButton_3_clicked()
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 void SecondWindow::onConnected() {
+    ui->stackedWidget->setCurrentIndex(2);
     ui->label_4->setText("WebSocket подключен");
 }
 
@@ -134,4 +146,32 @@ void SecondWindow::onMessage(QString string) {
         //обработка сообщения группового чата.
     }
 
+}
+
+/**
+ * @brief SecondWindow::on_pushButton_5_clicked
+ *
+ * Отправка сообщений в чат с указанием отправителя и время отправки.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
+
+void SecondWindow::on_pushButton_5_clicked()
+{
+    QString str3 = ui->lineEdit->text();
+    if (str3=="")
+    {
+
+    }
+    else
+    {
+        Chat *label1 = new Chat (this);
+        Chat *label2 = new Chat (this);
+        ui->verticalLayout->addWidget(label1);
+        label1->setText(Suname+" "+Name+"   "+QTime::currentTime().toString("hh:mm"));
+        ui->verticalLayout->addWidget(label2);
+        label2->setText(str3);
+        ui->lineEdit->clear();
+        person = true;
+    }
 }

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QWebSocket>
+#include "chat.h"
 
 namespace Ui {
 class SecondWindow;
@@ -27,6 +28,8 @@ private slots:
 
     void onConnected();
     void onMessage(QString message);
+
+    void on_pushButton_5_clicked();
 
 private:
     Ui::SecondWindow *ui;
