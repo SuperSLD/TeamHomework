@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/resc">
         <file>resc/1.jpg</file>
+        <file>resc/back_login.png</file>
     </qresource>
 </RCC>

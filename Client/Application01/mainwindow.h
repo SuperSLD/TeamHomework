@@ -18,7 +18,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void resizeEvent(QResizeEvent *event);
+
 private slots:
+
+
 
     void on_pushButton_2_clicked();
 
