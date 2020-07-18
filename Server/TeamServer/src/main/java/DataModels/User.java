@@ -1,5 +1,7 @@
 package DataModels;
 
+import javax.websocket.Session;
+
 /**
  * Класс для обраьотки данных пользвателя.
  *
@@ -11,6 +13,9 @@ public class User {
     private String lastname;
     private String email;
     private String password;
+
+    private Session session;
+    private int groupId;
 
     public User(int id,
                 String name,
@@ -24,5 +29,48 @@ public class User {
         this.password = password;
     }
 
+    /**
+     * Проверка на корректность ключа.
+     * @param key ключ из сообщения.
+     * @return верен ключ или нет
+     */
+    public boolean isCorrect(String key) {
+        return key.equals(password);
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
 }
