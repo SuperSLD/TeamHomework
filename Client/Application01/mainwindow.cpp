@@ -94,6 +94,7 @@ void MainWindow::on_pushButton_clicked()
  * Обработка ответа с данными пользователя и их проверка.
  *
  * @author Nekita Tambov (tambov.nikita@yandex.ru)
+ * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
  */
 void MainWindow::onResult(QNetworkReply *reply)
 {
@@ -119,13 +120,16 @@ void MainWindow::onResult(QNetworkReply *reply)
             qDebug() << "Invalid JSON...\n" << endl;
         }
         if (obj["errcode"].toString() == "0") {
-            if (email == obj["email"].toString() && email.length() > 5) {
-                hide();
-                secwindow = new SecondWindow();
-                connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
-                secwindow->show();
-                this->close();
-            }
+            //сохранение данных.
+            Property *prop = new Property();
+            //prop->put("email", obj["email"].toString());
+
+            //переход к следующему окну.
+            hide();
+            secwindow = new SecondWindow();
+            connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
+            secwindow->show();
+            this->close();
         } else if (obj["errcode"].toString() == "1"){
             QMessageBox::warning(this, "Ошибка", "Почта не найдена!");
         } else if (obj["errcode"].toString() == "2"){

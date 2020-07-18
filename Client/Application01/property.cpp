@@ -38,6 +38,12 @@ QString Property::get(QString name, QSqlQuery query)
   if( !query.exec( "SELECT * FROM Settings" ) ) {
           qDebug() << db.lastError().text();
       }
-  query.exec("SELECT * FROM Settings WHERE Name LIKE name");
-//тут дописать кусок на возвращение значения по поиску через select
+  query.prepare("SELECT * FROM Settings WHERE Name LIKE ?");
+  query.addBindValue( name );
+  query.exec();
+  query.first();
+  return query.value(0).toString();
+}
+
+Property:: ~Property() {
 }

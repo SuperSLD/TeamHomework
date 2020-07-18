@@ -19,6 +19,7 @@ class Property
  
 public:
   Property();
+  ~Property();
 
   void put(QString name, QString value, QSqlQuery query);
   QString get(QString name, QSqlQuery query);
