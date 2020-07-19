@@ -14,6 +14,7 @@
  */
 
 #include <QJsonObject>
+#include <QSettings>
 
 
 namespace Ui {
@@ -28,8 +29,6 @@ public:
     explicit SecondWindow(QWidget *parent = nullptr);
     ~SecondWindow();
     
-    void addMessage(QString message, QString time, QString author);
-
     void addMessage(QString message, QString time, QString author);
 
 signals:
@@ -49,6 +48,7 @@ private slots:
 private:
     Ui::SecondWindow *ui;
     QWebSocket *webSocket;
+    QSettings *settings;
 
     /**
      * @brief void

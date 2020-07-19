@@ -119,11 +119,12 @@ void MainWindow::onResult(QNetworkReply *reply)
         }
         if (obj["errcode"].toString() == "0") {
             //сохранение данных.
-            QSettings *settings = new QSettings("settings.conf",QSettings::NativeFormat);
+            QSettings *settings = new QSettings("settings.ini", QSettings::IniFormat);
             settings->setValue("name", obj["name"].toString());
             settings->setValue("lastname", obj["lastname"].toString());
             settings->setValue("password", obj["password"].toString());
             settings->setValue("email", obj["email"].toString());
+            settings->setValue("id", obj["id"].toString());
             settings->sync(); //записываем настройки
 
             //переход к следующему окну.
