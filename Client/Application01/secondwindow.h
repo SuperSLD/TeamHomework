@@ -3,6 +3,19 @@
 
 #include <QMainWindow>
 #include <QWebSocket>
+#include "chat.h"
+
+/**
+ * @brief #include
+ *
+ * Добавил <QJsonObject>
+ *
+ * @author Nikita Tambov (tambovnikita@yandex.ru)
+ */
+
+#include <QJsonObject>
+#include <QSettings>
+
 
 namespace Ui {
 class SecondWindow;
@@ -15,6 +28,8 @@ class SecondWindow : public QMainWindow
 public:
     explicit SecondWindow(QWidget *parent = nullptr);
     ~SecondWindow();
+    
+    void addMessage(QString message, QString time, QString author);
 
 signals:
     void Mainwindow();
@@ -28,9 +43,22 @@ private slots:
     void onConnected();
     void onMessage(QString message);
 
+    void on_pushButton_5_clicked();
+
 private:
     Ui::SecondWindow *ui;
     QWebSocket *webSocket;
+    QSettings *settings;
+
+    /**
+     * @brief void
+     *
+     * Добавил json-объект.
+     *
+     * @author Nikita Tambov (tambovnikita@yandex.ru)
+     */
+    QJsonObject m_currentJsonObject;
+
 };
 
 #endif // SECONDWINDOW_H

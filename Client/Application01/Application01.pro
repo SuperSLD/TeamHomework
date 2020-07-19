@@ -1,5 +1,6 @@
 QT       += core gui
 QT += network
+QT += sql
 QT += websockets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -18,17 +19,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    chat.cpp \
     httprequest.cpp \
     main.cpp \
     mainwindow.cpp \
+    property.cpp \
     secondwindow.cpp
 
 HEADERS += \
+    chat.h \
     httprequest.h \
     mainwindow.h \
+    property.h \
     secondwindow.h
 
 FORMS += \
+    chat.ui \
     mainwindow.ui \
     secondwindow.ui
 
