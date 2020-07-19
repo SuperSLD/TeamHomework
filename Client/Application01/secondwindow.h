@@ -31,6 +31,8 @@ private slots:
 
     void on_pushButton_5_clicked();
 
+    void keyPressEvent(QKeyEvent *event);
+
 private:
     Ui::SecondWindow *ui;
     QWebSocket *webSocket;

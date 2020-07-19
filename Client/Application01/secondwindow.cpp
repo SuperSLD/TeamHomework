@@ -3,6 +3,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QTime>
+#include <QtGui>
 
 QString Name="Ivan";
 QString Suname="Ivanov";
@@ -175,3 +176,35 @@ void SecondWindow::on_pushButton_5_clicked()
         person = true;
     }
 }
+
+/**
+ * @brief SecondWindow::keyPressEvent
+ * @param event
+ *
+ * Отправка сообщения в чат с помощью кнопки Enter.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ */
+
+void SecondWindow::keyPressEvent(QKeyEvent *event)
+    {
+        if (event->key()==Qt::Key_Enter || event->key() == Qt::Key_Return)
+        {
+            QString str3 = ui->lineEdit->text();
+            if (str3=="")
+            {
+
+            }
+            else
+            {
+                Chat *label1 = new Chat (this);
+                Chat *label2 = new Chat (this);
+                ui->verticalLayout->addWidget(label1);
+                label1->setText(Suname+" "+Name+"   "+QTime::currentTime().toString("hh:mm"));
+                ui->verticalLayout->addWidget(label2);
+                label2->setText(str3);
+                ui->lineEdit->clear();
+                person = true;
+            }
+        }
+    }
