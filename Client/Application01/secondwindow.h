@@ -5,6 +5,17 @@
 #include <QWebSocket>
 #include "chat.h"
 
+/**
+ * @brief #include
+ *
+ * Добавил <QJsonObject>
+ *
+ * @author Nikita Tambov (tambovnikita@yandex.ru)
+ */
+
+#include <QJsonObject>
+
+
 namespace Ui {
 class SecondWindow;
 }
@@ -16,6 +27,8 @@ class SecondWindow : public QMainWindow
 public:
     explicit SecondWindow(QWidget *parent = nullptr);
     ~SecondWindow();
+    
+    void addMessage(QString message, QString time, QString author);
 
 signals:
     void Mainwindow();
@@ -34,6 +47,19 @@ private slots:
 private:
     Ui::SecondWindow *ui;
     QWebSocket *webSocket;
+
+    /**
+     * @brief void
+     *
+     * Добавил json-объект.
+     *
+     * @author Nikita Tambov (tambovnikita@yandex.ru)
+     */
+
+
+    // Текущий json объект, с которым производится работа
+    QJsonObject m_currentJsonObject;
+    
 };
 
 #endif // SECONDWINDOW_H
