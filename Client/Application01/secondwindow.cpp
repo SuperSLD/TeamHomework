@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QTime>
+#include <QtGui>
 
 #include <QJsonObject>
 #include <QJsonArray>
@@ -227,3 +228,38 @@ void SecondWindow::on_pushButton_5_clicked() {
         person = true;
     }
 }
+
+/**
+ * @brief SecondWindow::keyPressEvent
+ * @param event
+ *
+ * Отправка сообщения в чат с помощью кнопки Enter.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ * @author Nikita Tambov (tambovnikita@yandex.ru) (Преобразование сообщений в JSON.)
+ */
+
+void SecondWindow::keyPressEvent(QKeyEvent *event)
+    {
+        if (event->key()==Qt::Key_Enter || event->key() == Qt::Key_Return)
+        {
+            QString str3 = ui->lineEdit->text();
+            if (str3=="")
+            {
+
+            }
+            else
+            {
+                QJsonObject textObject;
+                textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
+                textObject["author"] = (settings->value("name", "default").toString()
+                                        + " " + settings->value("lastname", "default").toString());  // Устанавливаем author
+                textObject["type"] = "group_message";  // Устанавливаем type
+                textObject["message_type"] = "simple_message";  // Устанавливаем message_type
+
+                QJsonDocument doc(textObject);
+                QString strJson(doc.toJson(QJsonDocument::Compact));
+                webSocket->sendTextMessage(strJson);
+            }
+        }
+    }
