@@ -18,10 +18,11 @@ class Property
 {
  
 public:
-  Property();
+   Property();
+   ~Property();
 
-  void put(QString name, QString value, QSqlQuery query);
-  QString get(QString name, QSqlQuery query);
+  void put(QString name, QString value);
+  QString get(QString name);
 
 private:
   QSqlDatabase db;
