@@ -236,6 +236,7 @@ void SecondWindow::on_pushButton_5_clicked() {
  * Отправка сообщения в чат с помощью кнопки Enter.
  *
  * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ * @author Nikita Tambov (tambovnikita@yandex.ru) (Преобразование сообщений в JSON.)
  */
 
 void SecondWindow::keyPressEvent(QKeyEvent *event)
