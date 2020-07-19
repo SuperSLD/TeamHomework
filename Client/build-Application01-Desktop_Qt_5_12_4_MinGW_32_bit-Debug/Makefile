@@ -249,7 +249,9 @@ Makefile: ../Application01/Application01.pro C:/Qt/5.12.4/mingw73_32/mkspecs/win
 		../Application01/Application01.pro \
 		C:/Qt/5.12.4/mingw73_32/lib/Qt5Widgets.prl \
 		C:/Qt/5.12.4/mingw73_32/lib/Qt5Gui.prl \
+		C:/Qt/5.12.4/mingw73_32/lib/Qt5WebSockets.prl \
 		C:/Qt/5.12.4/mingw73_32/lib/Qt5Network.prl \
+		C:/Qt/5.12.4/mingw73_32/lib/Qt5Sql.prl \
 		C:/Qt/5.12.4/mingw73_32/lib/Qt5Core.prl \
 		C:/Qt/5.12.4/mingw73_32/lib/qtmain.prl
 	$(QMAKE) -o Makefile ..\Application01\Application01.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
@@ -439,7 +441,9 @@ C:/Qt/5.12.4/mingw73_32/mkspecs/features/lex.prf:
 ../Application01/Application01.pro:
 C:/Qt/5.12.4/mingw73_32/lib/Qt5Widgets.prl:
 C:/Qt/5.12.4/mingw73_32/lib/Qt5Gui.prl:
+C:/Qt/5.12.4/mingw73_32/lib/Qt5WebSockets.prl:
 C:/Qt/5.12.4/mingw73_32/lib/Qt5Network.prl:
+C:/Qt/5.12.4/mingw73_32/lib/Qt5Sql.prl:
 C:/Qt/5.12.4/mingw73_32/lib/Qt5Core.prl:
 C:/Qt/5.12.4/mingw73_32/lib/qtmain.prl:
 qmake: FORCE

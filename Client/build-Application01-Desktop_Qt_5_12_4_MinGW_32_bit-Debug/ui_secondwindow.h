@@ -14,10 +14,13 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -42,13 +45,37 @@ public:
     QPushButton *pushButton_3;
     QSpacerItem *verticalSpacer_3;
     QPushButton *pushButton_2;
-    QWidget *widget_2;
+    QStackedWidget *stackedWidget;
+    QWidget *Messege;
+    QGridLayout *gridLayout_2;
+    QPushButton *pushButton_5;
+    QLineEdit *lineEdit;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
+    QGridLayout *gridLayout_3;
+    QVBoxLayout *verticalLayout;
+    QSpacerItem *verticalSpacer_4;
+    QWidget *Files;
+    QGridLayout *gridLayout_4;
+    QSpacerItem *horizontalSpacer_3;
+    QSpacerItem *verticalSpacer_6;
+    QLabel *label_6;
+    QSpacerItem *verticalSpacer_5;
+    QSpacerItem *horizontalSpacer_4;
+    QWidget *MainMenu;
     QGridLayout *gridLayout;
     QSpacerItem *horizontalSpacer;
-    QSpacerItem *verticalSpacer_2;
     QLabel *label_4;
     QSpacerItem *verticalSpacer;
+    QSpacerItem *verticalSpacer_2;
     QSpacerItem *horizontalSpacer_2;
+    QWidget *Tasks;
+    QGridLayout *gridLayout_5;
+    QSpacerItem *verticalSpacer_8;
+    QLabel *label_7;
+    QSpacerItem *verticalSpacer_7;
+    QSpacerItem *horizontalSpacer_5;
+    QSpacerItem *horizontalSpacer_6;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -183,37 +210,145 @@ public:
 
         horizontalLayout->addWidget(widget);
 
-        widget_2 = new QWidget(centralwidget);
-        widget_2->setObjectName(QString::fromUtf8("widget_2"));
-        gridLayout = new QGridLayout(widget_2);
+        stackedWidget = new QStackedWidget(centralwidget);
+        stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
+        Messege = new QWidget();
+        Messege->setObjectName(QString::fromUtf8("Messege"));
+        Messege->setFont(font1);
+        Messege->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+        gridLayout_2 = new QGridLayout(Messege);
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        pushButton_5 = new QPushButton(Messege);
+        pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
+        QFont font3;
+        font3.setFamily(QString::fromUtf8("Times New Roman"));
+        font3.setPointSize(10);
+        pushButton_5->setFont(font3);
+
+        gridLayout_2->addWidget(pushButton_5, 1, 1, 1, 1);
+
+        lineEdit = new QLineEdit(Messege);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        lineEdit->setFont(font3);
+        lineEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        gridLayout_2->addWidget(lineEdit, 1, 0, 1, 1);
+
+        scrollArea = new QScrollArea(Messege);
+        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
+        scrollArea->setFont(font3);
+        scrollArea->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 780, 660));
+        scrollAreaWidgetContents->setFont(font1);
+        scrollAreaWidgetContents->setStyleSheet(QString::fromUtf8("background-color: rgb(45, 45, 45);"));
+        gridLayout_3 = new QGridLayout(scrollAreaWidgetContents);
+        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+
+        gridLayout_3->addLayout(verticalLayout, 0, 0, 1, 1);
+
+        verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_3->addItem(verticalSpacer_4, 1, 0, 1, 1);
+
+        scrollArea->setWidget(scrollAreaWidgetContents);
+
+        gridLayout_2->addWidget(scrollArea, 0, 0, 1, 2);
+
+        stackedWidget->addWidget(Messege);
+        Files = new QWidget();
+        Files->setObjectName(QString::fromUtf8("Files"));
+        gridLayout_4 = new QGridLayout(Files);
+        gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_4->addItem(horizontalSpacer_3, 1, 0, 1, 1);
+
+        verticalSpacer_6 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_4->addItem(verticalSpacer_6, 2, 1, 1, 1);
+
+        label_6 = new QLabel(Files);
+        label_6->setObjectName(QString::fromUtf8("label_6"));
+        QFont font4;
+        font4.setFamily(QString::fromUtf8("Times New Roman"));
+        font4.setPointSize(14);
+        label_6->setFont(font4);
+        label_6->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        gridLayout_4->addWidget(label_6, 1, 1, 1, 1);
+
+        verticalSpacer_5 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_4->addItem(verticalSpacer_5, 0, 1, 1, 1);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_4->addItem(horizontalSpacer_4, 1, 2, 1, 1);
+
+        stackedWidget->addWidget(Files);
+        MainMenu = new QWidget();
+        MainMenu->setObjectName(QString::fromUtf8("MainMenu"));
+        gridLayout = new QGridLayout(MainMenu);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        horizontalSpacer = new QSpacerItem(273, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         gridLayout->addItem(horizontalSpacer, 1, 0, 1, 1);
 
-        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout->addItem(verticalSpacer_2, 2, 2, 1, 1);
-
-        label_4 = new QLabel(widget_2);
+        label_4 = new QLabel(MainMenu);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        QFont font3;
-        font3.setPointSize(14);
-        label_4->setFont(font3);
+        label_4->setFont(font4);
         label_4->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
-        gridLayout->addWidget(label_4, 1, 2, 1, 1);
+        gridLayout->addWidget(label_4, 1, 1, 1, 1);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout->addItem(verticalSpacer, 0, 2, 1, 1);
+        gridLayout->addItem(verticalSpacer, 0, 1, 1, 1);
+
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout->addItem(verticalSpacer_2, 2, 1, 1, 1);
 
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer_2, 1, 3, 1, 1);
+        gridLayout->addItem(horizontalSpacer_2, 1, 2, 1, 1);
 
+        stackedWidget->addWidget(MainMenu);
+        Tasks = new QWidget();
+        Tasks->setObjectName(QString::fromUtf8("Tasks"));
+        gridLayout_5 = new QGridLayout(Tasks);
+        gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
+        verticalSpacer_8 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        horizontalLayout->addWidget(widget_2);
+        gridLayout_5->addItem(verticalSpacer_8, 2, 1, 1, 1);
+
+        label_7 = new QLabel(Tasks);
+        label_7->setObjectName(QString::fromUtf8("label_7"));
+        label_7->setFont(font4);
+        label_7->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        gridLayout_5->addWidget(label_7, 1, 1, 1, 1);
+
+        verticalSpacer_7 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_5->addItem(verticalSpacer_7, 0, 1, 1, 1);
+
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_5->addItem(horizontalSpacer_5, 1, 0, 1, 1);
+
+        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_5->addItem(horizontalSpacer_6, 1, 2, 1, 1);
+
+        stackedWidget->addWidget(Tasks);
+
+        horizontalLayout->addWidget(stackedWidget);
 
         SecondWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(SecondWindow);
@@ -225,6 +360,9 @@ public:
         SecondWindow->setStatusBar(statusbar);
 
         retranslateUi(SecondWindow);
+
+        stackedWidget->setCurrentIndex(3);
+
 
         QMetaObject::connectSlotsByName(SecondWindow);
     } // setupUi
@@ -240,7 +378,10 @@ public:
         pushButton_4->setText(QApplication::translate("SecondWindow", " \320\241\320\276\320\276\320\261\321\211\320\265\320\275\320\270\321\217 ", nullptr));
         pushButton_3->setText(QApplication::translate("SecondWindow", "\320\227\320\260\320\264\320\260\321\207\320\270", nullptr));
         pushButton_2->setText(QApplication::translate("SecondWindow", "\320\222\321\213\321\205\320\276\320\264", nullptr));
-        label_4->setText(QApplication::translate("SecondWindow", "\320\224\320\276\320\274\320\260\321\210\320\275\321\217\321\217 \321\201\321\202\321\200\320\260\320\275\320\270\321\206\320\260", nullptr));
+        pushButton_5->setText(QApplication::translate("SecondWindow", "\320\236\321\202\320\277\321\200\320\260\320\262\320\270\321\202\321\214", nullptr));
+        label_6->setText(QApplication::translate("SecondWindow", "TextLabel", nullptr));
+        label_4->setText(QApplication::translate("SecondWindow", "TextLabel", nullptr));
+        label_7->setText(QApplication::translate("SecondWindow", "TextLabel", nullptr));
     } // retranslateUi
 
 };

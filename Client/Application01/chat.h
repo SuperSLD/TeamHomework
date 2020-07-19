@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::Chat *ui;
+
 };
 
 #endif // CHAT_H

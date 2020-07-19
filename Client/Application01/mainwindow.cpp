@@ -91,7 +91,7 @@ void MainWindow::on_pushButton_clicked()
  *
  * Обработка ответа с данными пользователя и их проверка.
  *
- * @author Nekita Tambov (tambov.nikita@yandex.ru)
+ * @author Nikita Tambov (tambovnikita@yandex.ru)
  * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
  */
 void MainWindow::onResult(QNetworkReply *reply)
