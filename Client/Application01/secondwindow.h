@@ -17,6 +17,8 @@ public:
     explicit SecondWindow(QWidget *parent = nullptr);
     ~SecondWindow();
 
+    void addMessage(QString message, QString time, QString author);
+
 signals:
     void Mainwindow();
 
@@ -34,6 +36,7 @@ private slots:
 private:
     Ui::SecondWindow *ui;
     QWebSocket *webSocket;
+
 };
 
 #endif // SECONDWINDOW_H

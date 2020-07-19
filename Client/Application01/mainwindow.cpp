@@ -7,6 +7,7 @@
 
 #include <QPixmap>
 #include <QPalette>
+#include <QSettings>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -72,9 +73,6 @@ void MainWindow::on_pushButton_clicked()
     QString email = ui->lineEdit->text();
     QString password = ui->lineEdit_2->text();
 
-    //HTTPRequest *req = new HTTPRequest("jutter.online", 1000);
-    //std::string resp = req->get("auth?email="+login.toStdString()+"&password="+password.toStdString());
-
     networkManager = new QNetworkAccessManager();
     // Подключаем networkManager к обработчику ответа
     connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onResult);
@@ -121,8 +119,12 @@ void MainWindow::onResult(QNetworkReply *reply)
         }
         if (obj["errcode"].toString() == "0") {
             //сохранение данных.
-            Property *prop = new Property();
-            //prop->put("email", obj["email"].toString());
+            QSettings *settings = new QSettings("settings.conf",QSettings::NativeFormat);
+            settings->setValue("name", obj["name"].toString());
+            settings->setValue("lastname", obj["lastname"].toString());
+            settings->setValue("password", obj["password"].toString());
+            settings->setValue("email", obj["email"].toString());
+            settings->sync(); //записываем настройки
 
             //переход к следующему окну.
             hide();
