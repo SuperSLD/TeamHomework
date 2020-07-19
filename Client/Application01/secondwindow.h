@@ -51,19 +51,10 @@ private:
     /**
      * @brief void
      *
-     * Добавил слоты и json-объект.
+     * Добавил json-объект.
      *
      * @author Nikita Tambov (tambovnikita@yandex.ru)
      */
-
-    // Слот добавления нового текста в массив текстов
-    void onAddButtonClicked();
-    // Слот удаления всей информации о текстах в текущем объекте
-    void onClearButtonClicked();
-    // Слот сохранения текстов в json файл
-    void onSaveButtonClicked();
-    // Слот загрузки текстов в программу из json файла
-    void onLoadButtonClicked();
 
 
     // Текущий json объект, с которым производится работа
