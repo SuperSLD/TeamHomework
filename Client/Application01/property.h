@@ -13,6 +13,7 @@
  * Класс создания БД с функциями внесения данных put и поиска get.
  * 
  * @author Skok Vyacheslav(pthfnd@mail.ru)
+ * @author Kuklin Egor(kuklin_99@bk.ru)
  */
 class Property
 {

@@ -9,9 +9,9 @@
 Property::Property()
 {
   db = QSqlDatabase::addDatabase( "QSQLITE" );
-  db.setDatabaseName( "DataBase2" );
+  db.setDatabaseName( "DataBase" );
   QSqlQuery query( db );
-
+  db.open();
   if( !query.exec(
                   "CREATE TABLE Settings("
                   "   Name VARCHAR( 200 ) NOT NULL,"
@@ -20,7 +20,7 @@ Property::Property()
       ) ) {
           qDebug() << db.lastError().text();
       }
-  db.open();
+
   qDebug() << db.open(); //true - если БД открылась
 }
 
@@ -42,7 +42,7 @@ QString Property::get(QString name ){
   if( !query.exec( "SELECT * FROM Settings" ) ) {
           qDebug() << db.lastError().text();
       }
-  query.prepare("SELECT Name FROM Settings WHERE Name LIKE ?");
+  query.prepare("SELECT value FROM Settings WHERE Name LIKE ?");
   query.addBindValue( name );
   query.exec();
   query.first();

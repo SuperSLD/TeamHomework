@@ -109,6 +109,7 @@ void SecondWindow::onConnected() {
  * webSocket->sendTextMessage("Hello From Qt!!!");
  *
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
+ * @author Kuklin Egor(kuklin_99@bk.ru)
  */
 void SecondWindow::onMessage(QString string) {
     //создаем JSON object из строки.
