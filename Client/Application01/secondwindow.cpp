@@ -175,8 +175,11 @@ void SecondWindow::on_pushButton_5_clicked() {
 
     // Создаём объект текста
     QJsonObject textObject;
-    textObject["message"] = ui->lineEdit->text();                // Устанавливаем заголовок текста
-    textObject["autor"] = (Name + " " + Suname);     // Устанавливаем содержание текста
+    textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
+    textObject["author"] = (Name + " " + Suname);  // Устанавливаем author
+    textObject["type"] = "group_message";  // Устанавливаем type
+    textObject["message_type"] = "simple_message";  // Устанавливаем message_type
+
     //QJsonArray textsArray = m_currentJsonObject["texts"].toArray(); // Забираем текущий массив текстов, даже если он не существует, он будет создан автоматически
     //textsArray.append(textObject);                                  // Добавляем объект текста в массив
     //m_currentJsonObject["texts"] = textsArray;                      // Сохраняем массив обратно в текущий объект
