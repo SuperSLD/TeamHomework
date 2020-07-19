@@ -21,7 +21,7 @@ class Property
 public:
    Property();
    ~Property();
-
+  
   void put(QString name, QString value);
   QString get(QString name);
 
