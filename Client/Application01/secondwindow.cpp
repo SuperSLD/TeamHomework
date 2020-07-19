@@ -5,6 +5,10 @@
 #include <QJsonObject>
 #include <QTime>
 
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
+
 QString Name="Ivan";
 QString Suname="Ivanov";
 QString Mail="IvanIvanov@mail.ru";
@@ -157,18 +161,67 @@ void SecondWindow::onMessage(QString string) {
 
 void SecondWindow::on_pushButton_5_clicked() {
     QString message = ui->lineEdit->text();
+    webSocket->sendTextMessage("");
+
+
+    /**
+     * @brief #include
+     *
+     * Преобразование сообщений в JSON.
+     *
+     * @author Nikita Tambov (tambovnikita@yandex.ru)
+     */
+
+
+    // Создаём объект текста
+    QJsonObject textObject;
+    textObject["message"] = ui->lineEdit->text();                // Устанавливаем заголовок текста
+    textObject["autor"] = (Name + " " + Suname);     // Устанавливаем содержание текста
+    //QJsonArray textsArray = m_currentJsonObject["texts"].toArray(); // Забираем текущий массив текстов, даже если он не существует, он будет создан автоматически
+    //textsArray.append(textObject);                                  // Добавляем объект текста в массив
+    //m_currentJsonObject["texts"] = textsArray;                      // Сохраняем массив обратно в текущий объект
+
+    // Устанавливаем текст всего Json объекта в текстовое поле для проверки
+    // qDebug() << (QJsonDocument(m_currentJsonObject).toJson(QJsonDocument::Indented));
+    qDebug() << textObject;
+
+
+    /*
+     void Widget::onClearButtonClicked()
+    {
+        m_currentJsonObject = QJsonObject();    // Пересоздаём новый текущий QJsonObject
+        ui->jsonDocumentTextEdit->clear();      // Очищаем текстовое поле
+        // Устанавливаем текст всего Json объекта в текстовое поле, чтобы увидеть, что это пустой объект.
+        // Увидите следующее -> {}
+        ui->jsonDocumentTextEdit->setText(QJsonDocument(m_currentJsonObject).toJson(QJsonDocument::Indented));
+    }
+    */
+}
+
+
+/**
+ * @brief SecondWindow::addMessage
+ * @param message текст сообщения.
+ * @param time время отправки (а не время получения).
+ * @param author автор сообщения.
+ * 
+ * Вставка сообщения в чат.
+ * 
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru) (написал весь код)
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com) (обернул в функцию) 
+ */
+
+ void SecondWindow::addMessage(QString message, QString time, QString author) {
     if (message==""){
 
     } else {
         Chat *label1 = new Chat (this);
         Chat *label2 = new Chat (this);
         ui->verticalLayout->addWidget(label1);
-        label1->setText(Suname+" "+Name+"   "+QTime::currentTime().toString("hh:mm"));
+        label1->setText(author + " " + time);
         ui->verticalLayout->addWidget(label2);
         label2->setText(message);
         ui->lineEdit->clear();
         person = true;
     }
 }
-
-
