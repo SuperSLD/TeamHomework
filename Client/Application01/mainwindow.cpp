@@ -3,16 +3,24 @@
 #include "secondwindow.h"
 #include "httprequest.h"
 #include <QMessageBox>
+#include "property.h"
+
 #include <QPixmap>
 #include <QPalette>
+#include <QSettings>
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QUrlQuery>
+#include <QNetworkReply>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
 }
 
 MainWindow::~MainWindow()
@@ -62,23 +70,76 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString login = ui->lineEdit->text();
+    QString email = ui->lineEdit->text();
     QString password = ui->lineEdit_2->text();
 
-    //HTTPRequest *req = new HTTPRequest("jutter.online", 1000);
-    //std::string resp = req->get("auth?email="+login.toStdString()+"&password="+password.toStdString());
+    networkManager = new QNetworkAccessManager();
+    // Подключаем networkManager к обработчику ответа
+    connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onResult);
+    // Получаем данные, а именно JSON файл с сайта по определённому url
+    networkManager->get(
+                QNetworkRequest(QUrl(
+            "http://jutter.online/TeamServer/auth?email="+email+"&password="+password
+                                    )
+                )
+    );
+}
 
+/**
+ * @brief MainWindow::onResult
+ * @param reply ответ сервера.
+ *
+ * Обработка ответа с данными пользователя и их проверка.
+ *
+ * @author Nikita Tambov (tambovnikita@yandex.ru)
+ * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
+ */
+void MainWindow::onResult(QNetworkReply *reply)
+{
+    // Если ошибки отсутсвуют
+    if(!reply->error()){
+        QString email = ui->lineEdit->text();
+        QString password = ui->lineEdit_2->text();
 
-    if ((login=="user1" && password=="test") || (login=="user2" && password=="happy"))
-     {
-        hide();
-        secwindow = new SecondWindow();
-        connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
-        secwindow->show();
-        this->close();
+        // То создаём объект Json Document, считав в него все данные из ответа
+        QByteArray resp = reply->readAll();
+        qDebug() << resp << endl;
+        QJsonDocument doc = QJsonDocument::fromJson(resp);
+        QJsonObject obj;
+        if(!doc.isNull()) {
+            if(doc.isObject()) {
+                obj = doc.object();
+                qDebug() << obj["email"].toString() << endl;
+            }
+            else {
+                qDebug() << "Document is not an object" << endl;
+            }
+        } else {
+            qDebug() << "Invalid JSON...\n" << endl;
+        }
+        if (obj["errcode"].toString() == "0") {
+            //сохранение данных.
+            QSettings *settings = new QSettings("settings.ini", QSettings::IniFormat);
+            settings->setValue("name", obj["name"].toString());
+            settings->setValue("lastname", obj["lastname"].toString());
+            settings->setValue("password", obj["password"].toString());
+            settings->setValue("email", obj["email"].toString());
+            settings->setValue("id", obj["id"].toString());
+            settings->sync(); //записываем настройки
+
+            //переход к следующему окну.
+            hide();
+            secwindow = new SecondWindow();
+            connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
+            secwindow->show();
+            this->close();
+        } else if (obj["errcode"].toString() == "1"){
+            QMessageBox::warning(this, "Ошибка", "Почта не найдена!");
+        } else if (obj["errcode"].toString() == "2"){
+            QMessageBox::warning(this, "Ошибка", "Неверный пароль!");
+        } else if (obj["errcode"].toString() == "3"){
+            QMessageBox::warning(this, "Ошибка", "Произошла неизвестная ошибка на сервере!");
+        }
     }
-    else
-    {
-      QMessageBox::warning(this, "Ошибка", "Неверный логин или пароль!");
-    }
+    reply->deleteLater();
 }
