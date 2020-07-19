@@ -249,14 +249,16 @@ void SecondWindow::keyPressEvent(QKeyEvent *event)
             }
             else
             {
-                Chat *label1 = new Chat (this);
-                Chat *label2 = new Chat (this);
-                ui->verticalLayout->addWidget(label1);
-                label1->setText(Suname+" "+Name+"   "+QTime::currentTime().toString("hh:mm"));
-                ui->verticalLayout->addWidget(label2);
-                label2->setText(str3);
-                ui->lineEdit->clear();
-                person = true;
+                QJsonObject textObject;
+                textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
+                textObject["author"] = (settings->value("name", "default").toString()
+                                        + " " + settings->value("lastname", "default").toString());  // Устанавливаем author
+                textObject["type"] = "group_message";  // Устанавливаем type
+                textObject["message_type"] = "simple_message";  // Устанавливаем message_type
+
+                QJsonDocument doc(textObject);
+                QString strJson(doc.toJson(QJsonDocument::Compact));
+                webSocket->sendTextMessage(strJson);
             }
         }
     }
