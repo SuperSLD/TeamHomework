@@ -265,32 +265,6 @@ gridline-color: rgb(0, 0, 0);</string>
         <string notr="true">color: rgb(255, 255, 255);</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="1" column="1">
-         <widget class="QPushButton" name="pushButton_5">
-          <property name="font">
-           <font>
-            <family>Times New Roman</family>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Отправить</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLineEdit" name="lineEdit">
-          <property name="font">
-           <font>
-            <family>Times New Roman</family>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 255, 255);</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0" colspan="2">
          <widget class="QScrollArea" name="scrollArea">
           <property name="font">
@@ -310,8 +284,8 @@ gridline-color: rgb(0, 0, 0);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>780</width>
-             <height>660</height>
+             <width>814</width>
+             <height>681</height>
             </rect>
            </property>
            <property name="font">
@@ -342,6 +316,32 @@ gridline-color: rgb(0, 0, 0);</string>
             </item>
            </layout>
           </widget>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="font">
+           <font>
+            <family>Times New Roman</family>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="pushButton_5">
+          <property name="font">
+           <font>
+            <family>Times New Roman</family>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Отправить</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -572,7 +572,7 @@ gridline-color: rgb(0, 0, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>973</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

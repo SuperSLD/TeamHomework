@@ -11,11 +11,6 @@
 #include <QJsonDocument>
 #include <QSettings>
 
-QString Name="Ivan";
-QString Suname="Ivanov";
-QString Mail="IvanIvanov@mail.ru";
-bool person=false;
-
 /**
  * @brief SecondWindow::SecondWindow
  * @param parent
@@ -49,6 +44,7 @@ SecondWindow::SecondWindow(QWidget *parent) :
 SecondWindow::~SecondWindow(){
     delete ui;
     delete webSocket;
+    delete settings;
 }
 
 /**
@@ -59,8 +55,14 @@ SecondWindow::~SecondWindow(){
  * @author Zinyukov Pavel (FlyForest962@yandex.ru)
  */
 
-void SecondWindow::on_pushButton_2_clicked()
-{
+void SecondWindow::on_pushButton_2_clicked() {
+    settings->setValue("name", "");
+    settings->setValue("lastname", "");
+    settings->setValue("password", "");
+    settings->setValue("email", "");
+    settings->setValue("id", "");
+    settings->sync();
+
     QApplication::quit();
 }
 
@@ -206,27 +208,45 @@ void SecondWindow::on_pushButton_5_clicked() {
  * Вставка сообщения в чат.
  * 
  * @author Zinyukov Pavel (FlyForest962@yandex.ru) (написал весь код)
- * @author Solyanoy Leonid(solyanoy.leonid@gmail.com) (обернул в функцию) 
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
+ * (обернул в функцию и немного доработал внешний вид сообщений)
  */
  void SecondWindow::addMessage(QString message, QString time, QString author) {
     if (message==""){
 
     } else {
-        Chat *label1 = new Chat (this);
-        Chat *label2 = new Chat (this);
-        ui->verticalLayout->addWidget(label1);
+        Chat *authorLabel = new Chat (this);
+        Chat *timeLabel = new Chat (this);
+        Chat *messageContent = new Chat (this);
         QString authorColor = "white";
         if (author == (settings->value("name", "default").toString()
                        + " " + settings->value("lastname", "default").toString())) {
             authorColor = "#87FFD5";
         }
-        label1->setText("<html><head/><body><p><span style=\" color:"+authorColor+";"
-                        " font-family:arial;\">"+author+"</span><span style=\" "
+
+        //Создание сообщения.
+        QVBoxLayout *messageBox = new QVBoxLayout();
+        QHBoxLayout *messageTitle = new QHBoxLayout();
+        authorLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:"+authorColor+";"
+                        " font-family:arial;\">"+author+"</span></p></body></html>");
+        authorLabel->setStyleSheet("QLabel {"
+                                   "border-style: solid;"
+                                   "border-width: 1px;"
+                                   "border-color: #808080; "
+                                   "border-radius: 10px;"
+                                   "}");
+        timeLabel->setText("<html><head><head/><body><p><span style=\" "
                         "color:#808080; font-family:arial;\"> "+time+"</span></p></body></html>");
-        ui->verticalLayout->addWidget(label2);
-        label2->setText(message);
+        messageContent->setText(message);
+        messageTitle->addWidget(authorLabel);
+        messageTitle->addWidget(timeLabel);
+        messageBox->addLayout(messageTitle);
+        messageBox->addWidget(messageContent);
+        messageBox->setAlignment(messageTitle, Qt::AlignLeft);
+        messageBox->setAlignment(messageContent, Qt::AlignLeft);
+
+        ui->verticalLayout->addLayout(messageBox);
         ui->lineEdit->clear();
-        person = true;
     }
 }
 
@@ -242,6 +262,9 @@ void SecondWindow::on_pushButton_5_clicked() {
 
 void SecondWindow::keyPressEvent(QKeyEvent *event)
     {
+    //не самый лучший момент
+    //дублирование большого куска кода
+    //TODO вынести этот кусок в функцию
         if (event->key()==Qt::Key_Enter || event->key() == Qt::Key_Return)
         {
             QString str3 = ui->lineEdit->text();
