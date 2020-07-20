@@ -11,6 +11,9 @@
 #include <QJsonDocument>
 #include <QSettings>
 
+#include <QScrollArea>
+#include <QGridLayout>
+
 /**
  * @brief SecondWindow::SecondWindow
  * @param parent
@@ -244,6 +247,32 @@ void SecondWindow::on_pushButton_5_clicked() {
         //Создание сообщения.
         QVBoxLayout *messageBox = new QVBoxLayout();
         QHBoxLayout *messageTitle = new QHBoxLayout();
+
+
+
+        /**
+         * @brief SecondWindow::addMessage
+         * @param message текст сообщения.
+         *
+         * Автоматическая прокрутка чата.
+         *
+         * @author Nikita Tambov (tambovnikita@yandex.ru)
+         */
+
+
+
+        /*
+        QScrollArea* scroll = new QScrollArea(this);
+        QWidget* ScrollAreaWidgetContents = new QWidget(scroll);
+        QGridLayout* ScrollLayout = new QGridLayout(ScrollAreaWidgetContents);
+        QWidget* widget = new QWidget;
+        ScrollLayout ->addWidget(widget);
+        */
+
+
+
+
+
         authorLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:"+authorColor+";"
                         " font-family:arial;\">"+author+"</span></p></body></html>");
         authorLabel->setStyleSheet("QLabel {"
@@ -263,6 +292,7 @@ void SecondWindow::on_pushButton_5_clicked() {
         messageBox->setAlignment(messageContent, Qt::AlignLeft);
 
         ui->verticalLayout->addLayout(messageBox);
+
         ui->lineEdit->clear();
     }
 }

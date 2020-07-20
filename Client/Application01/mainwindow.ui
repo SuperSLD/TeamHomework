@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resc.qrc">
-    <normaloff>:/resc/resc/icon.png</normaloff>:/resc/resc/icon.png</iconset>
+    <normaloff>:/resc/resc/1.1.png</normaloff>:/resc/resc/1.1.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -278,7 +278,7 @@ background-color: rgb(86, 86, 86);</string>
           <widget class="QLabel" name="label_4">
            <property name="font">
             <font>
-             <family>Times New Roman</family>
+             <family>Arial</family>
              <pointsize>24</pointsize>
              <weight>50</weight>
              <bold>false</bold>
@@ -312,7 +312,7 @@ background-color: rgb(86, 86, 86);</string>
           <widget class="QLabel" name="label_3">
            <property name="font">
             <font>
-             <family>Times New Roman</family>
+             <family>Arial</family>
              <pointsize>16</pointsize>
              <weight>50</weight>
              <italic>false</italic>
