@@ -7,7 +7,9 @@ import org.json.JSONObject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Вебсокет для обработки потока данных от
@@ -50,7 +52,7 @@ public class ConnectionWebsocket {
                     ResultSet rs = DBConnector.executeQuery(
                             "SELECT password, name, lastname, email FROM users WHERE id=" + user_id);
                     //Проверка пользователя.
-                    if (rs.getString("password").equals(key)) {
+                    if (rs.next() && rs.getString("password").equals(key)) {
                         User user = new User(
                                 user_id,
                                 rs.getString("name"),
@@ -77,22 +79,38 @@ public class ConnectionWebsocket {
                             if (newGroup) {
                                 rs = DBConnector.executeQuery(
                                         "SELECT name FROM team_groups WHERE id=" + groupId);
-                                Group group = new Group(
-                                        groupId,
-                                        rs.getString("name")
-                                );
-                                group.users.add(user);
-                                groups.add(group);
+                                if (rs.next()) {
+                                    Group group = new Group(
+                                            groupId,
+                                            rs.getString("name")
+                                    );
+                                    group.users.add(user);
+                                    groups.add(group);
+                                }
                             }
+                            sendLastMessages(session, groupId);
                         }
                     }
+                    System.out.println("create user");
                     break;
                 case "group_message":
-                    groupByUserSession(session).sendGroupMessage(message);
+                    Group currentGroup = groupByUserSession(session);
+                    if (currentGroup != null) {
+                        User user = currentGroup.findUserBySession(session);
+
+                        String date = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
+                        DBConnector.executeUpdate("INSERT messages VALUE(0, " + currentGroup.getId() + ", "
+                                + user.getId() + ", '" + messageObject.getString("message_type") + "', '"
+                                + messageObject.getString("message") + "', '"
+                                + date + "', '" + messageObject.getString("author") + "')");
+
+                        currentGroup.sendGroupMessage(new JSONObject(message).put("time", date).toString());
+                    }
                     break;
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 
@@ -115,5 +133,33 @@ public class ConnectionWebsocket {
             }
         }
         return null;
+    }
+
+    /**
+     * Отправка занесенных в базу сообщений.
+     * @param session сессия пользователя.
+     * @param groupId id группы.
+     *
+     * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
+     */
+    private void sendLastMessages(Session session, int groupId) {
+        try {
+            ResultSet rs = DBConnector.executeQuery(
+                    "SELECT text_message, time_send, author, type FROM messages WHERE group_id=" + groupId
+                            + "  ORDER BY time_send"
+            );
+            while (rs.next()) {
+                JSONObject message = new JSONObject();
+                message.put("message", rs.getString("text_message"));
+                message.put("type", "group_message");
+                message.put("message_type",rs.getString("type"));
+                message.put("author", rs.getString("author"));
+                message.put("time", rs.getString("time_send"));
+                System.out.println(message.toString());
+                session.getBasicRemote().sendText(message.toString());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

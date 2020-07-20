@@ -7,6 +7,7 @@
 
 #include <QPixmap>
 #include <QPalette>
+#include <QSettings>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -19,7 +20,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    QSettings *settings = new QSettings("settings.ini", QSettings::IniFormat);
+    if (settings->value("email", "").toString().length() > 4) {
+        openMainWindow();
+        return;
+    }
     ui->setupUi(this);
+    this->show();
 }
 
 MainWindow::~MainWindow()
@@ -72,9 +79,6 @@ void MainWindow::on_pushButton_clicked()
     QString email = ui->lineEdit->text();
     QString password = ui->lineEdit_2->text();
 
-    //HTTPRequest *req = new HTTPRequest("jutter.online", 1000);
-    //std::string resp = req->get("auth?email="+login.toStdString()+"&password="+password.toStdString());
-
     networkManager = new QNetworkAccessManager();
     // Подключаем networkManager к обработчику ответа
     connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onResult);
@@ -121,15 +125,16 @@ void MainWindow::onResult(QNetworkReply *reply)
         }
         if (obj["errcode"].toString() == "0") {
             //сохранение данных.
-            Property *prop = new Property();
-            //prop->put("email", obj["email"].toString());
+            QSettings *settings = new QSettings("settings.ini", QSettings::IniFormat);
+            settings->setValue("name", obj["name"].toString());
+            settings->setValue("lastname", obj["lastname"].toString());
+            settings->setValue("password", obj["password"].toString());
+            settings->setValue("email", obj["email"].toString());
+            settings->setValue("id", obj["id"].toString());
+            settings->sync(); //записываем настройки
 
             //переход к следующему окну.
-            hide();
-            secwindow = new SecondWindow();
-            connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
-            secwindow->show();
-            this->close();
+            openMainWindow();
         } else if (obj["errcode"].toString() == "1"){
             QMessageBox::warning(this, "Ошибка", "Почта не найдена!");
         } else if (obj["errcode"].toString() == "2"){
@@ -139,4 +144,19 @@ void MainWindow::onResult(QNetworkReply *reply)
         }
     }
     reply->deleteLater();
+}
+
+/**
+ * @brief MainWindow::openMainWindow
+ *
+ * Переход к главному окну приложения.
+ *
+ * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
+ */
+void MainWindow::openMainWindow() {
+    hide();
+    secwindow = new SecondWindow();
+    connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
+    secwindow->show();
+    this->close();
 }

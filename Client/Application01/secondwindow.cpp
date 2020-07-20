@@ -4,15 +4,12 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QTime>
+#include <QtGui>
 
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
-
-QString Name="Ivan";
-QString Suname="Ivanov";
-QString Mail="IvanIvanov@mail.ru";
-bool person=false;
+#include <QSettings>
 
 /**
  * @brief SecondWindow::SecondWindow
@@ -31,13 +28,15 @@ SecondWindow::SecondWindow(QWidget *parent) :
     int w = ui->label_5->width();
     int h = ui->label_5->height();
 
+    settings = new QSettings("settings.ini", QSettings::IniFormat);
     ui->label_5->setPixmap(pix1.scaled(w, h, Qt::KeepAspectRatio));
-    ui->label_3->setText(Name);
-    ui->label->setText(Suname);
-    ui->label_2->setText(Mail);
+    ui->label_3->setText(settings->value("name", "default").toString());
+    ui->label->setText(settings->value("lastname", "default").toString());
+    ui->label_2->setText(settings->value("email", "default").toString());
 
     webSocket  = new QWebSocket();
     webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
+    //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
     connect(webSocket, SIGNAL(connected()), this, SLOT(onConnected()));
     connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
 }
@@ -45,6 +44,7 @@ SecondWindow::SecondWindow(QWidget *parent) :
 SecondWindow::~SecondWindow(){
     delete ui;
     delete webSocket;
+    delete settings;
 }
 
 /**
@@ -55,8 +55,14 @@ SecondWindow::~SecondWindow(){
  * @author Zinyukov Pavel (FlyForest962@yandex.ru)
  */
 
-void SecondWindow::on_pushButton_2_clicked()
-{
+void SecondWindow::on_pushButton_2_clicked() {
+    settings->setValue("name", "");
+    settings->setValue("lastname", "");
+    settings->setValue("password", "");
+    settings->setValue("email", "");
+    settings->setValue("id", "");
+    settings->sync();
+
     QApplication::quit();
 }
 
@@ -111,6 +117,14 @@ void SecondWindow::on_pushButton_3_clicked()
 void SecondWindow::onConnected() {
     ui->stackedWidget->setCurrentIndex(2);
     ui->label_4->setText("WebSocket подключен");
+    QJsonObject textObject;
+    textObject["id"] = settings->value("id").toString();
+    textObject["key"] = settings->value("password").toString();
+    textObject["type"] = "connect_user";
+
+    QJsonDocument doc(textObject);
+    QString strJson(doc.toJson(QJsonDocument::Compact));
+    webSocket->sendTextMessage(strJson);
 }
 
 /**
@@ -125,6 +139,7 @@ void SecondWindow::onConnected() {
  * webSocket->sendTextMessage("Hello From Qt!!!");
  *
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
+ * @author Kuklin Egor(kuklin_99@bk.ru)
  */
 void SecondWindow::onMessage(QString string) {
     //создаем JSON object из строки.
@@ -147,6 +162,9 @@ void SecondWindow::onMessage(QString string) {
         //обработка тестового пинг сообщения.
     } else if (messasgeType == "group_message") {
         //обработка сообщения группового чата.
+        addMessage(obj["message"].toString(),
+                   obj["time"].toString(),
+                   obj["author"].toString());
     }
 
 }
@@ -156,49 +174,28 @@ void SecondWindow::onMessage(QString string) {
  *
  * Отправка сообщений в чат с указанием отправителя и время отправки.
  *
- * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru) (Пустая функция.)
+ * @author Nikita Tambov (tambovnikita@yandex.ru) (Преобразование сообщений в JSON.)
  */
 
 void SecondWindow::on_pushButton_5_clicked() {
     QString message = ui->lineEdit->text();
-    webSocket->sendTextMessage("");
 
+    if (message==""){
 
-    /**
-     * @brief #include
-     *
-     * Преобразование сообщений в JSON.
-     *
-     * @author Nikita Tambov (tambovnikita@yandex.ru)
-     */
+    } else {
+        // Создаём объект текста
+        QJsonObject textObject;
+        textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
+        textObject["author"] = (settings->value("name", "default").toString()
+                                + " " + settings->value("lastname", "default").toString());  // Устанавливаем author
+        textObject["type"] = "group_message";  // Устанавливаем type
+        textObject["message_type"] = "simple_message";  // Устанавливаем message_type
 
-
-    // Создаём объект текста
-    QJsonObject textObject;
-    textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
-    textObject["author"] = (Name + " " + Suname);  // Устанавливаем author
-    textObject["type"] = "group_message";  // Устанавливаем type
-    textObject["message_type"] = "simple_message";  // Устанавливаем message_type
-
-    //QJsonArray textsArray = m_currentJsonObject["texts"].toArray(); // Забираем текущий массив текстов, даже если он не существует, он будет создан автоматически
-    //textsArray.append(textObject);                                  // Добавляем объект текста в массив
-    //m_currentJsonObject["texts"] = textsArray;                      // Сохраняем массив обратно в текущий объект
-
-    // Устанавливаем текст всего Json объекта в текстовое поле для проверки
-    // qDebug() << (QJsonDocument(m_currentJsonObject).toJson(QJsonDocument::Indented));
-    qDebug() << textObject;
-
-
-    /*
-     void Widget::onClearButtonClicked()
-    {
-        m_currentJsonObject = QJsonObject();    // Пересоздаём новый текущий QJsonObject
-        ui->jsonDocumentTextEdit->clear();      // Очищаем текстовое поле
-        // Устанавливаем текст всего Json объекта в текстовое поле, чтобы увидеть, что это пустой объект.
-        // Увидите следующее -> {}
-        ui->jsonDocumentTextEdit->setText(QJsonDocument(m_currentJsonObject).toJson(QJsonDocument::Indented));
+        QJsonDocument doc(textObject);
+        QString strJson(doc.toJson(QJsonDocument::Compact));
+        webSocket->sendTextMessage(strJson);
     }
-    */
 }
 
 
@@ -211,20 +208,82 @@ void SecondWindow::on_pushButton_5_clicked() {
  * Вставка сообщения в чат.
  * 
  * @author Zinyukov Pavel (FlyForest962@yandex.ru) (написал весь код)
- * @author Solyanoy Leonid(solyanoy.leonid@gmail.com) (обернул в функцию) 
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
+ * (обернул в функцию и немного доработал внешний вид сообщений)
  */
-
  void SecondWindow::addMessage(QString message, QString time, QString author) {
     if (message==""){
 
     } else {
-        Chat *label1 = new Chat (this);
-        Chat *label2 = new Chat (this);
-        ui->verticalLayout->addWidget(label1);
-        label1->setText(author + " " + time);
-        ui->verticalLayout->addWidget(label2);
-        label2->setText(message);
+        Chat *authorLabel = new Chat (this);
+        Chat *timeLabel = new Chat (this);
+        Chat *messageContent = new Chat (this);
+        QString authorColor = "white";
+        if (author == (settings->value("name", "default").toString()
+                       + " " + settings->value("lastname", "default").toString())) {
+            authorColor = "#87FFD5";
+        }
+
+        //Создание сообщения.
+        QVBoxLayout *messageBox = new QVBoxLayout();
+        QHBoxLayout *messageTitle = new QHBoxLayout();
+        authorLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:"+authorColor+";"
+                        " font-family:arial;\">"+author+"</span></p></body></html>");
+        authorLabel->setStyleSheet("QLabel {"
+                                   "border-style: solid;"
+                                   "border-width: 1px;"
+                                   "border-color: #808080; "
+                                   "border-radius: 10px;"
+                                   "}");
+        timeLabel->setText("<html><head><head/><body><p><span style=\" "
+                        "color:#808080; font-family:arial;\"> "+time+"</span></p></body></html>");
+        messageContent->setText(message);
+        messageTitle->addWidget(authorLabel);
+        messageTitle->addWidget(timeLabel);
+        messageBox->addLayout(messageTitle);
+        messageBox->addWidget(messageContent);
+        messageBox->setAlignment(messageTitle, Qt::AlignLeft);
+        messageBox->setAlignment(messageContent, Qt::AlignLeft);
+
+        ui->verticalLayout->addLayout(messageBox);
         ui->lineEdit->clear();
-        person = true;
     }
 }
+
+/**
+ * @brief SecondWindow::keyPressEvent
+ * @param event
+ *
+ * Отправка сообщения в чат с помощью кнопки Enter.
+ *
+ * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ * @author Nikita Tambov (tambovnikita@yandex.ru) (Преобразование сообщений в JSON.)
+ */
+
+void SecondWindow::keyPressEvent(QKeyEvent *event)
+    {
+    //не самый лучший момент
+    //дублирование большого куска кода
+    //TODO вынести этот кусок в функцию
+        if (event->key()==Qt::Key_Enter || event->key() == Qt::Key_Return)
+        {
+            QString str3 = ui->lineEdit->text();
+            if (str3=="")
+            {
+
+            }
+            else
+            {
+                QJsonObject textObject;
+                textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
+                textObject["author"] = (settings->value("name", "default").toString()
+                                        + " " + settings->value("lastname", "default").toString());  // Устанавливаем author
+                textObject["type"] = "group_message";  // Устанавливаем type
+                textObject["message_type"] = "simple_message";  // Устанавливаем message_type
+
+                QJsonDocument doc(textObject);
+                QString strJson(doc.toJson(QJsonDocument::Compact));
+                webSocket->sendTextMessage(strJson);
+            }
+        }
+    }

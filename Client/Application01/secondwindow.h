@@ -14,6 +14,7 @@
  */
 
 #include <QJsonObject>
+#include <QSettings>
 
 
 namespace Ui {
@@ -44,9 +45,12 @@ private slots:
 
     void on_pushButton_5_clicked();
 
+    void keyPressEvent(QKeyEvent *event);
+
 private:
     Ui::SecondWindow *ui;
     QWebSocket *webSocket;
+    QSettings *settings;
 
     /**
      * @brief void
@@ -55,11 +59,8 @@ private:
      *
      * @author Nikita Tambov (tambovnikita@yandex.ru)
      */
-
-
-    // Текущий json объект, с которым производится работа
     QJsonObject m_currentJsonObject;
-    
+
 };
 
 #endif // SECONDWINDOW_H
