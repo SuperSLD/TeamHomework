@@ -14,7 +14,7 @@ public:
   Property();
 
   void put(QString name, QString value, QSqlQuery query);
-  QString get(QString name);
+  QString get(QString name, QSqlQuery query);
 
 private:
   QSqlDatabase db;

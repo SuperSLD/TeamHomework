@@ -39,5 +39,7 @@ QString Property::get(QString name, QSqlQuery query)
           qDebug() << db.lastError().text();
       }
   query.exec("SELECT * FROM Settings WHERE Name LIKE name");
-//тут дописать кусок на возвращение значения по поиску через select
+  query.first();
+  QString val = query.value(0).toString();
+  return val;
 }
