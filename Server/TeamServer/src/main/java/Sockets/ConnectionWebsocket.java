@@ -95,16 +95,18 @@ public class ConnectionWebsocket {
                     break;
                 case "group_message":
                     Group currentGroup = groupByUserSession(session);
-                    User user = currentGroup.findUserBySession(session);
+                    if (currentGroup != null) {
+                        User user = currentGroup.findUserBySession(session);
 
-                    String date = new SimpleDateFormat("HH:mm dd.MM.yyyy").format(Calendar.getInstance().getTime());
+                        String date = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
-                    DBConnector.executeUpdate("INSERT messages VALUE(0, "+currentGroup.getId()+", "
-                            +user.getId()+", '"+messageObject.getString("message_type")+"', '"
-                            +messageObject.getString("message")+"', '"
-                            + date +"', '"+messageObject.getString("author")+"')");
+                        DBConnector.executeUpdate("INSERT messages VALUE(0, " + currentGroup.getId() + ", "
+                                + user.getId() + ", '" + messageObject.getString("message_type") + "', '"
+                                + messageObject.getString("message") + "', '"
+                                + date + "', '" + messageObject.getString("author") + "')");
 
-                    currentGroup.sendGroupMessage(new JSONObject(message).put("time", date).toString());
+                        currentGroup.sendGroupMessage(new JSONObject(message).put("time", date).toString());
+                    }
                     break;
             }
         } catch (Exception ex) {

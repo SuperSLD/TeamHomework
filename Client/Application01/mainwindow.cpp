@@ -20,7 +20,15 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    QSettings *settings = new QSettings("settings.ini", QSettings::IniFormat);
+    if (settings->value("email", "").toString().length() > 4) {
+        openMainWindow();
+        return;
+    }
+
     ui->setupUi(this);
+
+    this->show();
 }
 
 MainWindow::~MainWindow()
@@ -128,11 +136,7 @@ void MainWindow::onResult(QNetworkReply *reply)
             settings->sync(); //записываем настройки
 
             //переход к следующему окну.
-            hide();
-            secwindow = new SecondWindow();
-            connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
-            secwindow->show();
-            this->close();
+            openMainWindow();
         } else if (obj["errcode"].toString() == "1"){
             QMessageBox::warning(this, "Ошибка", "Почта не найдена!");
         } else if (obj["errcode"].toString() == "2"){
@@ -142,4 +146,19 @@ void MainWindow::onResult(QNetworkReply *reply)
         }
     }
     reply->deleteLater();
+}
+
+/**
+ * @brief MainWindow::openMainWindow
+ *
+ * Переход к главному окну приложения.
+ *
+ * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
+ */
+void MainWindow::openMainWindow() {
+    hide();
+    secwindow = new SecondWindow();
+    connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
+    secwindow->show();
+    this->close();
 }

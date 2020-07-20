@@ -42,8 +42,11 @@ private slots:
 
     void onConnected();
     void onMessage(QString message);
+    void onDisconnected();
 
     void on_pushButton_5_clicked();
+
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     Ui::SecondWindow *ui;

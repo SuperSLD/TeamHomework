@@ -34,8 +34,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     SecondWindow *secwindow;
-
     QNetworkAccessManager *networkManager;
 
+    void openMainWindow();
 };
 #endif // MAINWINDOW_H
