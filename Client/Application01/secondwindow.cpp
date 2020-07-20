@@ -39,6 +39,7 @@ SecondWindow::SecondWindow(QWidget *parent) :
     //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
     connect(webSocket, SIGNAL(connected()), this, SLOT(onConnected()));
     connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
+    connect(webSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
 }
 
 SecondWindow::~SecondWindow(){
@@ -117,6 +118,9 @@ void SecondWindow::on_pushButton_3_clicked()
 void SecondWindow::onConnected() {
     ui->stackedWidget->setCurrentIndex(2);
     ui->label_4->setText("WebSocket подключен");
+    ui->onlineLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:#9EFFB1;"
+                            " font-family:consolas;\">online</span></p></body></html>");
+
     QJsonObject textObject;
     textObject["id"] = settings->value("id").toString();
     textObject["key"] = settings->value("password").toString();
@@ -125,6 +129,19 @@ void SecondWindow::onConnected() {
     QJsonDocument doc(textObject);
     QString strJson(doc.toJson(QJsonDocument::Compact));
     webSocket->sendTextMessage(strJson);
+}
+
+/**
+ * @brief SecondWindow::onDisconnected
+ *
+ * Вызвывается при закрытии вебсокета.
+ *
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
+ */
+void SecondWindow::onDisconnected() {
+    ui->onlineLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:#FF5964;"
+                            " font-family:consolas;\">ofline</span></p></body></html>");
+    ui->label_4->setText("WebSocket не подключен");
 }
 
 /**
