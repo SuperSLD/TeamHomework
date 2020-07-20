@@ -40,6 +40,7 @@ public:
     QLabel *label_3;
     QLabel *label;
     QLabel *label_2;
+    QLabel *onlineLabel;
     QVBoxLayout *verticalLayout_4;
     QPushButton *pushButton;
     QPushButton *pushButton_4;
@@ -84,9 +85,9 @@ public:
     {
         if (SecondWindow->objectName().isEmpty())
             SecondWindow->setObjectName(QString::fromUtf8("SecondWindow"));
-        SecondWindow->resize(973, 791);
+        SecondWindow->resize(973, 809);
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/resc/resc/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/resc/resc/1.1.png"), QSize(), QIcon::Normal, QIcon::Off);
         SecondWindow->setWindowIcon(icon);
         SecondWindow->setStyleSheet(QString::fromUtf8("background-color: rgb(45, 45, 45);"));
         centralwidget = new QWidget(SecondWindow);
@@ -169,6 +170,11 @@ public:
 
         verticalLayout_3->addWidget(label_2);
 
+        onlineLabel = new QLabel(widget);
+        onlineLabel->setObjectName(QString::fromUtf8("onlineLabel"));
+
+        verticalLayout_3->addWidget(onlineLabel);
+
 
         verticalLayout_2->addLayout(verticalLayout_3);
 
@@ -232,7 +238,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 780, 659));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 780, 677));
         scrollAreaWidgetContents->setFont(font1);
         scrollAreaWidgetContents->setStyleSheet(QString::fromUtf8("background-color: rgb(45, 45, 45);"));
         gridLayout_3 = new QGridLayout(scrollAreaWidgetContents);
@@ -378,6 +384,7 @@ public:
         label_3->setText(QApplication::translate("SecondWindow", "\320\230\320\274\321\217", nullptr));
         label->setText(QApplication::translate("SecondWindow", "\320\244\320\260\320\274\320\270\320\273\320\270\321\217", nullptr));
         label_2->setText(QApplication::translate("SecondWindow", "\320\237\320\276\321\207\321\202\320\260", nullptr));
+        onlineLabel->setText(QString());
         pushButton->setText(QApplication::translate("SecondWindow", "\320\244\320\260\320\271\320\273\321\213", nullptr));
         pushButton_4->setText(QApplication::translate("SecondWindow", " \320\241\320\276\320\276\320\261\321\211\320\265\320\275\320\270\321\217 ", nullptr));
         pushButton_3->setText(QApplication::translate("SecondWindow", "\320\227\320\260\320\264\320\260\321\207\320\270", nullptr));

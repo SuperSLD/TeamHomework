@@ -14,6 +14,7 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFormLayout>
+#include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
@@ -36,23 +37,27 @@ public:
     QGridLayout *gridLayout_2;
     QSpacerItem *verticalSpacer_2;
     QSpacerItem *horizontalSpacer_2;
+    QSpacerItem *horizontalSpacer;
+    QSpacerItem *verticalSpacer;
+    QFrame *frame;
     QGridLayout *gridLayout;
+    QSpacerItem *horizontalSpacer_3;
     QSpacerItem *verticalSpacer_3;
-    QLabel *label_3;
-    QLabel *label_4;
     QSpacerItem *verticalSpacer_4;
     QVBoxLayout *verticalLayout;
     QFormLayout *layout_2;
-    QLabel *label;
     QLineEdit *lineEdit;
-    QLabel *label_2;
     QLineEdit *lineEdit_2;
+    QLabel *label;
+    QLabel *label_2;
     QSpacerItem *verticalSpacer_5;
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton;
     QPushButton *pushButton_2;
-    QSpacerItem *horizontalSpacer;
-    QSpacerItem *verticalSpacer;
+    QLabel *label_4;
+    QSpacerItem *horizontalSpacer_4;
+    QLabel *label_3;
+    QSpacerItem *verticalSpacer_6;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -62,7 +67,7 @@ public:
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(800, 607);
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/resc/resc/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/resc/resc/1.1.png"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
         MainWindow->setStyleSheet(QString::fromUtf8(""));
         MainWindow->setLocale(QLocale(QLocale::Rundi, QLocale::Burundi));
@@ -81,42 +86,33 @@ public:
 
         gridLayout_2->addItem(horizontalSpacer_2, 1, 0, 1, 1);
 
-        gridLayout = new QGridLayout();
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_2->addItem(horizontalSpacer, 2, 3, 1, 1);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout_2->addItem(verticalSpacer, 3, 2, 1, 1);
+
+        frame = new QFrame(centralwidget);
+        frame->setObjectName(QString::fromUtf8("frame"));
+        frame->setEnabled(true);
+        frame->setStyleSheet(QString::fromUtf8("border-image: url(:/resc/resc/back_login2.jpg);"));
+        gridLayout = new QGridLayout(frame);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setHorizontalSpacing(0);
+        gridLayout->setVerticalSpacing(8);
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_3, 2, 0, 1, 1);
+
         verticalSpacer_3 = new QSpacerItem(20, 30, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout->addItem(verticalSpacer_3, 1, 0, 1, 1);
-
-        label_3 = new QLabel(centralwidget);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
-        QFont font;
-        font.setFamily(QString::fromUtf8("Times New Roman"));
-        font.setPointSize(16);
-        font.setBold(false);
-        font.setItalic(false);
-        font.setWeight(50);
-        label_3->setFont(font);
-        label_3->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        label_3->setAlignment(Qt::AlignCenter);
-
-        gridLayout->addWidget(label_3, 2, 0, 1, 1);
-
-        label_4 = new QLabel(centralwidget);
-        label_4->setObjectName(QString::fromUtf8("label_4"));
-        QFont font1;
-        font1.setFamily(QString::fromUtf8("Times New Roman"));
-        font1.setPointSize(24);
-        font1.setBold(false);
-        font1.setWeight(50);
-        label_4->setFont(font1);
-        label_4->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        label_4->setAlignment(Qt::AlignCenter);
-
-        gridLayout->addWidget(label_4, 0, 0, 1, 1);
+        gridLayout->addItem(verticalSpacer_3, 2, 1, 1, 1);
 
         verticalSpacer_4 = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout->addItem(verticalSpacer_4, 3, 0, 1, 1);
+        gridLayout->addItem(verticalSpacer_4, 4, 1, 1, 1);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
@@ -126,36 +122,36 @@ public:
         layout_2->setFormAlignment(Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing);
         layout_2->setHorizontalSpacing(3);
         layout_2->setContentsMargins(0, 0, 0, 0);
-        label = new QLabel(centralwidget);
-        label->setObjectName(QString::fromUtf8("label"));
-        QFont font2;
-        font2.setPointSize(10);
-        label->setFont(font2);
-        label->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-
-        layout_2->setWidget(0, QFormLayout::LabelRole, label);
-
-        lineEdit = new QLineEdit(centralwidget);
+        lineEdit = new QLineEdit(frame);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setFont(font2);
-        lineEdit->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+        QFont font;
+        font.setPointSize(10);
+        lineEdit->setFont(font);
+        lineEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);	"));
 
-        layout_2->setWidget(0, QFormLayout::FieldRole, lineEdit);
+        layout_2->setWidget(1, QFormLayout::FieldRole, lineEdit);
 
-        label_2 = new QLabel(centralwidget);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setFont(font2);
-        label_2->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-
-        layout_2->setWidget(1, QFormLayout::LabelRole, label_2);
-
-        lineEdit_2 = new QLineEdit(centralwidget);
+        lineEdit_2 = new QLineEdit(frame);
         lineEdit_2->setObjectName(QString::fromUtf8("lineEdit_2"));
-        lineEdit_2->setFont(font2);
-        lineEdit_2->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+        lineEdit_2->setFont(font);
+        lineEdit_2->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);	"));
         lineEdit_2->setEchoMode(QLineEdit::Password);
 
-        layout_2->setWidget(1, QFormLayout::FieldRole, lineEdit_2);
+        layout_2->setWidget(3, QFormLayout::FieldRole, lineEdit_2);
+
+        label = new QLabel(frame);
+        label->setObjectName(QString::fromUtf8("label"));
+        label->setFont(font);
+        label->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        layout_2->setWidget(0, QFormLayout::FieldRole, label);
+
+        label_2 = new QLabel(frame);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+        label_2->setFont(font);
+        label_2->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        layout_2->setWidget(2, QFormLayout::FieldRole, label_2);
 
 
         verticalLayout->addLayout(layout_2);
@@ -166,18 +162,18 @@ public:
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        pushButton = new QPushButton(centralwidget);
+        pushButton = new QPushButton(frame);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setFont(font2);
+        pushButton->setFont(font);
         pushButton->setAcceptDrops(false);
         pushButton->setStyleSheet(QString::fromUtf8("background-color: rgb(86, 86, 86);\n"
 "color: rgb(255, 255, 255);"));
 
         horizontalLayout->addWidget(pushButton);
 
-        pushButton_2 = new QPushButton(centralwidget);
+        pushButton_2 = new QPushButton(frame);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setFont(font2);
+        pushButton_2->setFont(font);
         pushButton_2->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 "background-color: rgb(86, 86, 86);"));
 
@@ -187,18 +183,45 @@ public:
         verticalLayout->addLayout(horizontalLayout);
 
 
-        gridLayout->addLayout(verticalLayout, 4, 0, 1, 1);
+        gridLayout->addLayout(verticalLayout, 5, 1, 1, 1);
+
+        label_4 = new QLabel(frame);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+        QFont font1;
+        font1.setFamily(QString::fromUtf8("Times New Roman"));
+        font1.setPointSize(24);
+        font1.setBold(false);
+        font1.setWeight(50);
+        label_4->setFont(font1);
+        label_4->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+        label_4->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(label_4, 1, 1, 1, 1);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_4, 2, 2, 1, 1);
+
+        label_3 = new QLabel(frame);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+        QFont font2;
+        font2.setFamily(QString::fromUtf8("Times New Roman"));
+        font2.setPointSize(16);
+        font2.setBold(false);
+        font2.setItalic(false);
+        font2.setWeight(50);
+        label_3->setFont(font2);
+        label_3->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+        label_3->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(label_3, 3, 1, 1, 1);
+
+        verticalSpacer_6 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        gridLayout->addItem(verticalSpacer_6, 0, 1, 1, 1);
 
 
-        gridLayout_2->addLayout(gridLayout, 1, 1, 2, 2);
-
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        gridLayout_2->addItem(horizontalSpacer, 2, 3, 1, 1);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        gridLayout_2->addItem(verticalSpacer, 3, 2, 1, 1);
+        gridLayout_2->addWidget(frame, 1, 1, 2, 2);
 
 
         gridLayout_3->addLayout(gridLayout_2, 0, 0, 1, 1);
@@ -220,12 +243,12 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "WorkTeam", nullptr));
-        label_3->setText(QApplication::translate("MainWindow", "\320\222\321\205\320\276\320\264", nullptr));
-        label_4->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#03dac5; font-family:arial;\">Work</span><span style=\" color:white; font-family:arial;\">Team</span></p></body></html>", nullptr));
         label->setText(QApplication::translate("MainWindow", "Email:", nullptr));
         label_2->setText(QApplication::translate("MainWindow", "Password:", nullptr));
         pushButton->setText(QApplication::translate("MainWindow", "\320\222\321\205\320\276\320\264", nullptr));
         pushButton_2->setText(QApplication::translate("MainWindow", "\320\222\321\213\321\205\320\276\320\264", nullptr));
+        label_4->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#03dac5; font-family:arial;\">Work</span><span style=\" color:white; font-family:arial;\">Team</span></p></body></html>", nullptr));
+        label_3->setText(QApplication::translate("MainWindow", "\320\222\321\205\320\276\320\264", nullptr));
     } // retranslateUi
 
 };

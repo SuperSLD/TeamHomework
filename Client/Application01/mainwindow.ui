@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resc.qrc">
-    <normaloff>:/resc/resc/icon.png</normaloff>:/resc/resc/icon.png</iconset>
+    <normaloff>:/resc/resc/1.1.png</normaloff>:/resc/resc/1.1.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>

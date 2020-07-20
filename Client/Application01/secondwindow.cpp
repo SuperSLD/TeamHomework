@@ -11,6 +11,9 @@
 #include <QJsonDocument>
 #include <QSettings>
 
+#include <QScrollArea>
+#include <QGridLayout>
+
 /**
  * @brief SecondWindow::SecondWindow
  * @param parent
@@ -118,8 +121,10 @@ void SecondWindow::on_pushButton_3_clicked()
 void SecondWindow::onConnected() {
     ui->stackedWidget->setCurrentIndex(2);
     ui->label_4->setText("WebSocket подключен");
+    /*
     ui->onlineLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:#9EFFB1;"
                             " font-family:consolas;\">online</span></p></body></html>");
+    */
 
     QJsonObject textObject;
     textObject["id"] = settings->value("id").toString();
@@ -139,8 +144,10 @@ void SecondWindow::onConnected() {
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 void SecondWindow::onDisconnected() {
+    /*
     ui->onlineLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:#FF5964;"
                             " font-family:consolas;\">ofline</span></p></body></html>");
+    */
     ui->label_4->setText("WebSocket не подключен");
 }
 
@@ -244,6 +251,32 @@ void SecondWindow::on_pushButton_5_clicked() {
         //Создание сообщения.
         QVBoxLayout *messageBox = new QVBoxLayout();
         QHBoxLayout *messageTitle = new QHBoxLayout();
+
+
+
+        /**
+         * @brief SecondWindow::addMessage
+         * @param message текст сообщения.
+         *
+         * Автоматическая прокрутка чата.
+         *
+         * @author Nikita Tambov (tambovnikita@yandex.ru)
+         */
+
+
+
+        /*
+        QScrollArea* scroll = new QScrollArea(this);
+        QWidget* ScrollAreaWidgetContents = new QWidget(scroll);
+        QGridLayout* ScrollLayout = new QGridLayout(ScrollAreaWidgetContents);
+        QWidget* widget = new QWidget;
+        ScrollLayout ->addWidget(widget);
+        */
+
+
+
+
+
         authorLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:"+authorColor+";"
                         " font-family:arial;\">"+author+"</span></p></body></html>");
         authorLabel->setStyleSheet("QLabel {"
@@ -263,6 +296,7 @@ void SecondWindow::on_pushButton_5_clicked() {
         messageBox->setAlignment(messageContent, Qt::AlignLeft);
 
         ui->verticalLayout->addLayout(messageBox);
+
         ui->lineEdit->clear();
     }
 }
