@@ -159,6 +159,13 @@ background-color: rgb(50, 50, 50);</string>
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QLabel" name="onlineLabel">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
