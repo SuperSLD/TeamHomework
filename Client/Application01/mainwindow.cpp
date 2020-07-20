@@ -7,6 +7,7 @@
 
 #include <QPixmap>
 #include <QPalette>
+#include <QSettings>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -72,9 +73,6 @@ void MainWindow::on_pushButton_clicked()
     QString email = ui->lineEdit->text();
     QString password = ui->lineEdit_2->text();
 
-    //HTTPRequest *req = new HTTPRequest("jutter.online", 1000);
-    //std::string resp = req->get("auth?email="+login.toStdString()+"&password="+password.toStdString());
-
     networkManager = new QNetworkAccessManager();
     // Подключаем networkManager к обработчику ответа
     connect(networkManager, &QNetworkAccessManager::finished, this, &MainWindow::onResult);
@@ -93,7 +91,8 @@ void MainWindow::on_pushButton_clicked()
  *
  * Обработка ответа с данными пользователя и их проверка.
  *
- * @author Nekita Tambov (tambov.nikita@yandex.ru)
+ * @author Nikita Tambov (tambovnikita@yandex.ru)
+ * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
  */
 void MainWindow::onResult(QNetworkReply *reply)
 {
@@ -119,13 +118,21 @@ void MainWindow::onResult(QNetworkReply *reply)
             qDebug() << "Invalid JSON...\n" << endl;
         }
         if (obj["errcode"].toString() == "0") {
-            if (email == obj["email"].toString() && email.length() > 5) {
-                hide();
-                secwindow = new SecondWindow();
-                connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
-                secwindow->show();
-                this->close();
-            }
+            //сохранение данных.
+            QSettings *settings = new QSettings("settings.ini", QSettings::IniFormat);
+            settings->setValue("name", obj["name"].toString());
+            settings->setValue("lastname", obj["lastname"].toString());
+            settings->setValue("password", obj["password"].toString());
+            settings->setValue("email", obj["email"].toString());
+            settings->setValue("id", obj["id"].toString());
+            settings->sync(); //записываем настройки
+
+            //переход к следующему окну.
+            hide();
+            secwindow = new SecondWindow();
+            connect(secwindow, &SecondWindow::Mainwindow,this, &MainWindow::show);
+            secwindow->show();
+            this->close();
         } else if (obj["errcode"].toString() == "1"){
             QMessageBox::warning(this, "Ошибка", "Почта не найдена!");
         } else if (obj["errcode"].toString() == "2"){

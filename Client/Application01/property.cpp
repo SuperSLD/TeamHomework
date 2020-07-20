@@ -41,7 +41,8 @@ QString Property::get(QString name ){
   QSqlQuery query;
   if( !query.exec( "SELECT * FROM Settings" ) ) {
           qDebug() << db.lastError().text();
-      }
+  }
+ 
   query.prepare("SELECT value FROM Settings WHERE Name LIKE ?");
   query.addBindValue( name );
   query.exec();
