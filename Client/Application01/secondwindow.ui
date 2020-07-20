@@ -152,7 +152,7 @@ background-color: rgb(50, 50, 50);</string>
            <property name="font">
             <font>
              <family>Arial</family>
-             <pointsize>13</pointsize>
+             <pointsize>12</pointsize>
             </font>
            </property>
            <property name="styleSheet">
@@ -245,8 +245,9 @@ gridline-color: rgb(0, 0, 0);</string>
         <widget class="QPushButton" name="pushButton_2">
          <property name="font">
           <font>
-           <family>Times New Roman</family>
+           <family>Arial</family>
            <pointsize>12</pointsize>
+           <italic>true</italic>
           </font>
          </property>
          <property name="styleSheet">
@@ -346,7 +347,7 @@ gridline-color: rgb(0, 0, 0);</string>
          <widget class="QPushButton" name="pushButton_5">
           <property name="font">
            <font>
-            <family>Times New Roman</family>
+            <family>Arial</family>
             <pointsize>10</pointsize>
            </font>
           </property>

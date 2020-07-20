@@ -188,7 +188,7 @@ public:
         label_4 = new QLabel(frame);
         label_4->setObjectName(QString::fromUtf8("label_4"));
         QFont font1;
-        font1.setFamily(QString::fromUtf8("Times New Roman"));
+        font1.setFamily(QString::fromUtf8("Arial"));
         font1.setPointSize(24);
         font1.setBold(false);
         font1.setWeight(50);
@@ -205,7 +205,7 @@ public:
         label_3 = new QLabel(frame);
         label_3->setObjectName(QString::fromUtf8("label_3"));
         QFont font2;
-        font2.setFamily(QString::fromUtf8("Times New Roman"));
+        font2.setFamily(QString::fromUtf8("Arial"));
         font2.setPointSize(16);
         font2.setBold(false);
         font2.setItalic(false);

@@ -142,7 +142,7 @@ public:
         sizePolicy3.setHeightForWidth(label_3->sizePolicy().hasHeightForWidth());
         label_3->setSizePolicy(sizePolicy3);
         QFont font1;
-        font1.setFamily(QString::fromUtf8("Times New Roman"));
+        font1.setFamily(QString::fromUtf8("Arial Black"));
         font1.setPointSize(12);
         label_3->setFont(font1);
         label_3->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
@@ -163,7 +163,7 @@ public:
         sizePolicy3.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
         label_2->setSizePolicy(sizePolicy3);
         QFont font2;
-        font2.setFamily(QString::fromUtf8("Times New Roman"));
+        font2.setFamily(QString::fromUtf8("Arial"));
         font2.setPointSize(13);
         label_2->setFont(font2);
         label_2->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
@@ -183,7 +183,10 @@ public:
         verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
         pushButton = new QPushButton(widget);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setFont(font1);
+        QFont font3;
+        font3.setFamily(QString::fromUtf8("Arial"));
+        font3.setPointSize(12);
+        pushButton->setFont(font3);
         pushButton->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 "gridline-color: rgb(0, 0, 0);"));
 
@@ -191,14 +194,14 @@ public:
 
         pushButton_4 = new QPushButton(widget);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
-        pushButton_4->setFont(font1);
+        pushButton_4->setFont(font3);
         pushButton_4->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         verticalLayout_4->addWidget(pushButton_4);
 
         pushButton_3 = new QPushButton(widget);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        pushButton_3->setFont(font1);
+        pushButton_3->setFont(font3);
         pushButton_3->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         verticalLayout_4->addWidget(pushButton_3);
@@ -212,7 +215,10 @@ public:
 
         pushButton_2 = new QPushButton(widget);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setFont(font1);
+        QFont font4;
+        font4.setFamily(QString::fromUtf8("Times New Roman"));
+        font4.setPointSize(12);
+        pushButton_2->setFont(font4);
         pushButton_2->setStyleSheet(QString::fromUtf8("color: rgb(255, 0, 4);"));
 
         verticalLayout_2->addWidget(pushButton_2);
@@ -224,22 +230,22 @@ public:
         stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
         Messege = new QWidget();
         Messege->setObjectName(QString::fromUtf8("Messege"));
-        Messege->setFont(font1);
+        Messege->setFont(font4);
         Messege->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         gridLayout_2 = new QGridLayout(Messege);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         scrollArea = new QScrollArea(Messege);
         scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
-        QFont font3;
-        font3.setFamily(QString::fromUtf8("Times New Roman"));
-        font3.setPointSize(10);
-        scrollArea->setFont(font3);
+        QFont font5;
+        font5.setFamily(QString::fromUtf8("Times New Roman"));
+        font5.setPointSize(10);
+        scrollArea->setFont(font5);
         scrollArea->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 780, 677));
-        scrollAreaWidgetContents->setFont(font1);
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 770, 677));
+        scrollAreaWidgetContents->setFont(font4);
         scrollAreaWidgetContents->setStyleSheet(QString::fromUtf8("background-color: rgb(45, 45, 45);"));
         gridLayout_3 = new QGridLayout(scrollAreaWidgetContents);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
@@ -258,17 +264,17 @@ public:
 
         lineEdit = new QLineEdit(Messege);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        QFont font4;
-        font4.setFamily(QString::fromUtf8("Arial"));
-        font4.setPointSize(10);
-        lineEdit->setFont(font4);
+        QFont font6;
+        font6.setFamily(QString::fromUtf8("Arial"));
+        font6.setPointSize(10);
+        lineEdit->setFont(font6);
         lineEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout_2->addWidget(lineEdit, 1, 0, 1, 1);
 
         pushButton_5 = new QPushButton(Messege);
         pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
-        pushButton_5->setFont(font3);
+        pushButton_5->setFont(font5);
 
         gridLayout_2->addWidget(pushButton_5, 1, 1, 1, 1);
 
@@ -287,10 +293,10 @@ public:
 
         label_6 = new QLabel(Files);
         label_6->setObjectName(QString::fromUtf8("label_6"));
-        QFont font5;
-        font5.setFamily(QString::fromUtf8("Times New Roman"));
-        font5.setPointSize(14);
-        label_6->setFont(font5);
+        QFont font7;
+        font7.setFamily(QString::fromUtf8("Times New Roman"));
+        font7.setPointSize(14);
+        label_6->setFont(font7);
         label_6->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout_4->addWidget(label_6, 1, 1, 1, 1);
@@ -314,7 +320,7 @@ public:
 
         label_4 = new QLabel(MainMenu);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setFont(font5);
+        label_4->setFont(font7);
         label_4->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout->addWidget(label_4, 1, 1, 1, 1);
@@ -342,7 +348,7 @@ public:
 
         label_7 = new QLabel(Tasks);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setFont(font5);
+        label_7->setFont(font7);
         label_7->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout_5->addWidget(label_7, 1, 1, 1, 1);
