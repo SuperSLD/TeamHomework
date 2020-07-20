@@ -2,6 +2,7 @@
     <qresource prefix="/resc">
         <file>resc/1.jpg</file>
         <file>resc/back_login.png</file>
+        <file>resc/icon.png</file>
         <file>resc/back_login2.jpg</file>
     </qresource>
 </RCC>

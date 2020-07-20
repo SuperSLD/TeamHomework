@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>WorkTeam</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resc.qrc">
+    <normaloff>:/resc/resc/icon.png</normaloff>:/resc/resc/icon.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -352,12 +356,14 @@ background-color: rgb(86, 86, 86);</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="resc.qrc"/>
+ </resources>
  <connections/>
 </ui>
