@@ -10,6 +10,7 @@
 #define UI_SECONDWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
@@ -48,13 +49,13 @@ public:
     QStackedWidget *stackedWidget;
     QWidget *Messege;
     QGridLayout *gridLayout_2;
-    QPushButton *pushButton_5;
-    QLineEdit *lineEdit;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QGridLayout *gridLayout_3;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer_4;
+    QLineEdit *lineEdit;
+    QPushButton *pushButton_5;
     QWidget *Files;
     QGridLayout *gridLayout_4;
     QSpacerItem *horizontalSpacer_3;
@@ -84,6 +85,9 @@ public:
         if (SecondWindow->objectName().isEmpty())
             SecondWindow->setObjectName(QString::fromUtf8("SecondWindow"));
         SecondWindow->resize(973, 791);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/resc/resc/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        SecondWindow->setWindowIcon(icon);
         SecondWindow->setStyleSheet(QString::fromUtf8("background-color: rgb(45, 45, 45);"));
         centralwidget = new QWidget(SecondWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
@@ -218,30 +222,17 @@ public:
         Messege->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         gridLayout_2 = new QGridLayout(Messege);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        pushButton_5 = new QPushButton(Messege);
-        pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
+        scrollArea = new QScrollArea(Messege);
+        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
         QFont font3;
         font3.setFamily(QString::fromUtf8("Times New Roman"));
         font3.setPointSize(10);
-        pushButton_5->setFont(font3);
-
-        gridLayout_2->addWidget(pushButton_5, 1, 1, 1, 1);
-
-        lineEdit = new QLineEdit(Messege);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setFont(font3);
-        lineEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-
-        gridLayout_2->addWidget(lineEdit, 1, 0, 1, 1);
-
-        scrollArea = new QScrollArea(Messege);
-        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
         scrollArea->setFont(font3);
         scrollArea->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 780, 660));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 780, 659));
         scrollAreaWidgetContents->setFont(font1);
         scrollAreaWidgetContents->setStyleSheet(QString::fromUtf8("background-color: rgb(45, 45, 45);"));
         gridLayout_3 = new QGridLayout(scrollAreaWidgetContents);
@@ -258,6 +249,19 @@ public:
         scrollArea->setWidget(scrollAreaWidgetContents);
 
         gridLayout_2->addWidget(scrollArea, 0, 0, 1, 2);
+
+        lineEdit = new QLineEdit(Messege);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        lineEdit->setFont(font3);
+        lineEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        gridLayout_2->addWidget(lineEdit, 1, 0, 1, 1);
+
+        pushButton_5 = new QPushButton(Messege);
+        pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
+        pushButton_5->setFont(font3);
+
+        gridLayout_2->addWidget(pushButton_5, 1, 1, 1, 1);
 
         stackedWidget->addWidget(Messege);
         Files = new QWidget();
@@ -353,7 +357,7 @@ public:
         SecondWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(SecondWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 973, 25));
+        menubar->setGeometry(QRect(0, 0, 973, 26));
         SecondWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(SecondWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -361,7 +365,7 @@ public:
 
         retranslateUi(SecondWindow);
 
-        stackedWidget->setCurrentIndex(3);
+        stackedWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(SecondWindow);
@@ -369,7 +373,7 @@ public:
 
     void retranslateUi(QMainWindow *SecondWindow)
     {
-        SecondWindow->setWindowTitle(QApplication::translate("SecondWindow", "MainWindow", nullptr));
+        SecondWindow->setWindowTitle(QApplication::translate("SecondWindow", "WorkTeam", nullptr));
         label_5->setText(QString());
         label_3->setText(QApplication::translate("SecondWindow", "\320\230\320\274\321\217", nullptr));
         label->setText(QApplication::translate("SecondWindow", "\320\244\320\260\320\274\320\270\320\273\320\270\321\217", nullptr));
