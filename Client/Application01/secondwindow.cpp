@@ -121,10 +121,8 @@ void SecondWindow::on_pushButton_3_clicked()
 void SecondWindow::onConnected() {
     ui->stackedWidget->setCurrentIndex(2);
     ui->label_4->setText("WebSocket подключен");
-    /*
     ui->onlineLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:#9EFFB1;"
                             " font-family:consolas;\">online</span></p></body></html>");
-    */
 
     QJsonObject textObject;
     textObject["id"] = settings->value("id").toString();
@@ -144,10 +142,8 @@ void SecondWindow::onConnected() {
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 void SecondWindow::onDisconnected() {
-    /*
     ui->onlineLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:#FF5964;"
                             " font-family:consolas;\">ofline</span></p></body></html>");
-    */
     ui->label_4->setText("WebSocket не подключен");
 }
 

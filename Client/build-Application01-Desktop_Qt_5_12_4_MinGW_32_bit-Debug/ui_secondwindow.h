@@ -258,7 +258,10 @@ public:
 
         lineEdit = new QLineEdit(Messege);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setFont(font3);
+        QFont font4;
+        font4.setFamily(QString::fromUtf8("Arial"));
+        font4.setPointSize(10);
+        lineEdit->setFont(font4);
         lineEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout_2->addWidget(lineEdit, 1, 0, 1, 1);
@@ -284,10 +287,10 @@ public:
 
         label_6 = new QLabel(Files);
         label_6->setObjectName(QString::fromUtf8("label_6"));
-        QFont font4;
-        font4.setFamily(QString::fromUtf8("Times New Roman"));
-        font4.setPointSize(14);
-        label_6->setFont(font4);
+        QFont font5;
+        font5.setFamily(QString::fromUtf8("Times New Roman"));
+        font5.setPointSize(14);
+        label_6->setFont(font5);
         label_6->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout_4->addWidget(label_6, 1, 1, 1, 1);
@@ -311,7 +314,7 @@ public:
 
         label_4 = new QLabel(MainMenu);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setFont(font4);
+        label_4->setFont(font5);
         label_4->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout->addWidget(label_4, 1, 1, 1, 1);
@@ -339,7 +342,7 @@ public:
 
         label_7 = new QLabel(Tasks);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setFont(font4);
+        label_7->setFont(font5);
         label_7->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout_5->addWidget(label_7, 1, 1, 1, 1);
