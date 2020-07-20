@@ -11,6 +11,7 @@
 
 #include <QtCore/QLocale>
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
@@ -60,6 +61,9 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(800, 607);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/resc/resc/icon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
         MainWindow->setStyleSheet(QString::fromUtf8(""));
         MainWindow->setLocale(QLocale(QLocale::Rundi, QLocale::Burundi));
         centralwidget = new QWidget(MainWindow);
@@ -202,7 +206,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 25));
+        menubar->setGeometry(QRect(0, 0, 800, 26));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -215,7 +219,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "WorkTeam", nullptr));
         label_3->setText(QApplication::translate("MainWindow", "\320\222\321\205\320\276\320\264", nullptr));
         label_4->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#03dac5; font-family:arial;\">Work</span><span style=\" color:white; font-family:arial;\">Team</span></p></body></html>", nullptr));
         label->setText(QApplication::translate("MainWindow", "Email:", nullptr));
