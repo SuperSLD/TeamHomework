@@ -25,7 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
         openMainWindow();
         return;
     }
+
     ui->setupUi(this);
+
     this->show();
 }
 
