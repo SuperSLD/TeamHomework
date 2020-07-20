@@ -11,6 +11,7 @@ Property::Property()
   db = QSqlDatabase::addDatabase( "QSQLITE" );
   db.setDatabaseName( "DataBase" );
   QSqlQuery query( db );
+  db.open();
   if( !query.exec(
                   "CREATE TABLE Settings("
                   "   Name VARCHAR( 200 ) NOT NULL,"
@@ -19,10 +20,12 @@ Property::Property()
       ) ) {
           qDebug() << db.lastError().text();
       }
+
+  qDebug() << db.open(); //true - если БД открылась
 }
 
-void Property::put(QString name, QString value, QSqlQuery query){
-  //put(имя строки, значение строки, тут всегда писать query)
+void Property::put(QString name, QString value){
+   QSqlQuery query;
   query.prepare("INSERT INTO Settings( Name, Value ) "
                 "VALUES( ?, ? )");
 
@@ -31,14 +34,16 @@ void Property::put(QString name, QString value, QSqlQuery query){
   if( !query.exec() ) {
           qDebug() << db.lastError().text();
       }
+
 }
-QString Property::get(QString name, QSqlQuery query)
-//get(имя строки, тут всегда писать query)
-{
+
+QString Property::get(QString name ){
+  QSqlQuery query;
   if( !query.exec( "SELECT * FROM Settings" ) ) {
           qDebug() << db.lastError().text();
-      }
-  query.prepare("SELECT * FROM Settings WHERE Name LIKE ?");
+  }
+ 
+  query.prepare("SELECT value FROM Settings WHERE Name LIKE ?");
   query.addBindValue( name );
   query.exec();
   query.first();
