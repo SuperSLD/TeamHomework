@@ -99,7 +99,9 @@ void SecondWindow::on_pushButton_clicked()
 
 void SecondWindow::on_pushButton_4_clicked()
 {
+
     ui->stackedWidget->setCurrentIndex(0);
+
 }
 
 /**
@@ -167,6 +169,7 @@ void SecondWindow::onDisconnected() {
  * @author Kuklin Egor(kuklin_99@bk.ru)
  */
 void SecondWindow::onMessage(QString string) {
+
     //создаем JSON object из строки.
     QJsonDocument doc = QJsonDocument::fromJson(string.toUtf8());
     QJsonObject obj;
@@ -204,6 +207,7 @@ void SecondWindow::onMessage(QString string) {
  */
 
 void SecondWindow::on_pushButton_5_clicked() {
+
     QString message = ui->lineEdit->text();
 
     if (message==""){
