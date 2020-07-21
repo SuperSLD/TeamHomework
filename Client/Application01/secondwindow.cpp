@@ -14,6 +14,8 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QGridLayout>
+#include <QtCore>
+
 
 /**
  * @brief SecondWindow::SecondWindow
@@ -37,6 +39,8 @@ SecondWindow::SecondWindow(QWidget *parent) :
     ui->label_3->setText(settings->value("name", "default").toString());
     ui->label->setText(settings->value("lastname", "default").toString());
     ui->label_2->setText(settings->value("email", "default").toString());
+
+    ui->scrollArea->setWidgetResizable(true);
 
     webSocket  = new QWebSocket();
     webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
@@ -235,76 +239,47 @@ void SecondWindow::on_pushButton_5_clicked() {
  * @author Zinyukov Pavel (FlyForest962@yandex.ru) (написал весь код)
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  * (обернул в функцию и немного доработал внешний вид сообщений)
+ *
+ * @author Nikita Tambov (tambovnikita@yandex.ru)
+ * (Автоматическая прокрутка чата.)
  */
  void SecondWindow::addMessage(QString message, QString time, QString author) {
-
-    if (message==""){
-
-    } else {
-
-        Chat *authorLabel = new Chat (this);
-        Chat *timeLabel = new Chat (this);
-        Chat *messageContent = new Chat (this);
-        QString authorColor = "white";
-        if (author == (settings->value("name", "default").toString()
-                       + " " + settings->value("lastname", "default").toString())) {
-            authorColor = "#87FFD5";
-        }
-
-        //Создание сообщения.
-        QVBoxLayout *messageBox = new QVBoxLayout();
-        QHBoxLayout *messageTitle = new QHBoxLayout();
-
-
-
-        /**
-         * @brief SecondWindow::addMessage
-         * @param message текст сообщения.
-         *
-         * Автоматическая прокрутка чата.
-         *
-         * @author Nikita Tambov (tambovnikita@yandex.ru)
-         */
-
-
-
-        /*
-        QScrollArea* scroll = new QScrollArea(this);
-        QWidget* ScrollAreaWidgetContents = new QWidget(scroll);
-        QGridLayout* ScrollLayout = new QGridLayout(ScrollAreaWidgetContents);
-        QWidget* widget = new QWidget;
-        ScrollLayout ->addWidget(widget);
-        */
-
-
-
-
-
-        authorLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:"+authorColor+";"
-                        " font-family:arial;\">"+author+"</span></p></body></html>");
-        authorLabel->setStyleSheet("QLabel {"
-                                   "border-style: solid;"
-                                   "border-width: 1px;"
-                                   "border-color: #808080; "
-                                   "border-radius: 10px;"
-                                   "}");
-        timeLabel->setText("<html><head><head/><body><p><span style=\" "
-                        "color:#808080; font-family:arial;\"> "+time+"</span></p></body></html>");
-        messageContent->setText(message);
-        messageTitle->addWidget(authorLabel);
-        messageTitle->addWidget(timeLabel);
-        messageBox->addLayout(messageTitle);
-        messageBox->addWidget(messageContent);
-        messageBox->setAlignment(messageTitle, Qt::AlignLeft);
-        messageBox->setAlignment(messageContent, Qt::AlignLeft);
-
-        ui->verticalLayout->addLayout(messageBox);
-
-        ui->lineEdit->clear();
-
-        //Автоматическая прокрутка чата.
-        ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximumHeight());
+    Chat *authorLabel = new Chat (this);
+    Chat *timeLabel = new Chat (this);
+    Chat *messageContent = new Chat (this);
+    QString authorColor = "white";
+    if (author == (settings->value("name", "default").toString()
+                   + " " + settings->value("lastname", "default").toString())) {
+        authorColor = "#87FFD5";
     }
+
+    //Создание сообщения.
+    QVBoxLayout *messageBox = new QVBoxLayout();
+    QHBoxLayout *messageTitle = new QHBoxLayout();
+
+    authorLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:"+authorColor+";"
+                    " font-family:arial;\">"+author+"</span></p></body></html>");
+    authorLabel->setStyleSheet("QLabel {"
+                               "border-style: solid;"
+                               "border-width: 1px;"
+                               "border-color: #808080; "
+                               "border-radius: 10px;"
+                               "}");
+    timeLabel->setText("<html><head><head/><body><p><span style=\" "
+                    "color:#808080; font-family:arial;\"> "+time+"</span></p></body></html>");
+    messageContent->setText(message);
+    messageTitle->addWidget(authorLabel);
+    messageTitle->addWidget(timeLabel);
+    messageBox->addLayout(messageTitle);
+    messageBox->addWidget(messageContent);
+    messageBox->setAlignment(messageTitle, Qt::AlignLeft);
+    messageBox->setAlignment(messageContent, Qt::AlignLeft);
+
+    ui->verticalLayout->addLayout(messageBox);
+
+    ui->lineEdit->clear();
+    ui->scrollArea->verticalScrollBar()->setValue(
+            ui->scrollArea->verticalScrollBar()->maximumHeight());
 }
 
 /**
@@ -322,25 +297,25 @@ void SecondWindow::keyPressEvent(QKeyEvent *event)
     //не самый лучший момент
     //дублирование большого куска кода
     //TODO вынести этот кусок в функцию
-        if (event->key()==Qt::Key_Enter || event->key() == Qt::Key_Return)
+    if (event->key()==Qt::Key_Enter || event->key() == Qt::Key_Return)
+    {
+        QString str3 = ui->lineEdit->text();
+        if (str3=="")
         {
-            QString str3 = ui->lineEdit->text();
-            if (str3=="")
-            {
 
-            }
-            else
-            {
-                QJsonObject textObject;
-                textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
-                textObject["author"] = (settings->value("name", "default").toString()
-                                        + " " + settings->value("lastname", "default").toString());  // Устанавливаем author
-                textObject["type"] = "group_message";  // Устанавливаем type
-                textObject["message_type"] = "simple_message";  // Устанавливаем message_type
-
-                QJsonDocument doc(textObject);
-                QString strJson(doc.toJson(QJsonDocument::Compact));
-                webSocket->sendTextMessage(strJson);
-            }
         }
+        else
+        {
+            QJsonObject textObject;
+            textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
+            textObject["author"] = (settings->value("name", "default").toString()
+                                    + " " + settings->value("lastname", "default").toString());  // Устанавливаем author
+            textObject["type"] = "group_message";  // Устанавливаем type
+            textObject["message_type"] = "simple_message";  // Устанавливаем message_type
+
+            QJsonDocument doc(textObject);
+            QString strJson(doc.toJson(QJsonDocument::Compact));
+            webSocket->sendTextMessage(strJson);
+        }
+    }
     }
