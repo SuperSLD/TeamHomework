@@ -2,6 +2,7 @@ QT       += core gui
 QT += network
 QT += sql
 QT += websockets
+QT += widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
