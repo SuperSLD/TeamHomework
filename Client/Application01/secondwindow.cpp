@@ -12,6 +12,7 @@
 #include <QSettings>
 
 #include <QScrollArea>
+#include <QScrollBar>
 #include <QGridLayout>
 
 /**
@@ -94,7 +95,9 @@ void SecondWindow::on_pushButton_clicked()
 
 void SecondWindow::on_pushButton_4_clicked()
 {
+
     ui->stackedWidget->setCurrentIndex(0);
+
 }
 
 /**
@@ -162,6 +165,7 @@ void SecondWindow::onDisconnected() {
  * @author Kuklin Egor(kuklin_99@bk.ru)
  */
 void SecondWindow::onMessage(QString string) {
+
     //создаем JSON object из строки.
     QJsonDocument doc = QJsonDocument::fromJson(string.toUtf8());
     QJsonObject obj;
@@ -199,6 +203,7 @@ void SecondWindow::onMessage(QString string) {
  */
 
 void SecondWindow::on_pushButton_5_clicked() {
+
     QString message = ui->lineEdit->text();
 
     if (message==""){
@@ -232,9 +237,11 @@ void SecondWindow::on_pushButton_5_clicked() {
  * (обернул в функцию и немного доработал внешний вид сообщений)
  */
  void SecondWindow::addMessage(QString message, QString time, QString author) {
+
     if (message==""){
 
     } else {
+
         Chat *authorLabel = new Chat (this);
         Chat *timeLabel = new Chat (this);
         Chat *messageContent = new Chat (this);
@@ -294,6 +301,9 @@ void SecondWindow::on_pushButton_5_clicked() {
         ui->verticalLayout->addLayout(messageBox);
 
         ui->lineEdit->clear();
+
+        //Автоматическая прокрутка чата.
+        ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximumHeight());
     }
 }
 
