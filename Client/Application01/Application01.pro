@@ -21,23 +21,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     chat.cpp \
-    httprequest.cpp \
+    loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    property.cpp \
-    secondwindow.cpp
+    property.cpp
 
 HEADERS += \
     chat.h \
-    httprequest.h \
+    loginwindow.h \
     mainwindow.h \
-    property.h \
-    secondwindow.h
+    property.h
 
-FORMS += \
-    chat.ui \
-    mainwindow.ui \
-    secondwindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

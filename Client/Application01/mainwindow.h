@@ -2,40 +2,50 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "secondwindow.h"
+#include <QWebSocket>
+#include "chat.h"
 
-#include <QNetworkAccessManager>
+#include <QJsonObject>
+#include <QSettings>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+
+namespace Ui {
+class MainWindow;
+}
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    
+    void addMessage(QString message, QString time, QString author);
 
-    void resizeEvent(QResizeEvent *event);
+signals:
+    void LoginWindow();
 
 private slots:
-
-
-
     void on_pushButton_2_clicked();
-
     void on_pushButton_clicked();
+    void on_pushButton_4_clicked();
+    void on_pushButton_3_clicked();
 
-    // Обработчик данных полученных от объекта QNetworkAccessManager
-    void onResult(QNetworkReply *reply);
+    void onConnected();
+    void onMessage(QString message);
+    void onDisconnected();
+
+    void on_pushButton_5_clicked();
+
+    void keyPressEvent(QKeyEvent *event);
 
 private:
-    Ui::MainWindow *ui;
-    SecondWindow *secwindow;
-    QNetworkAccessManager *networkManager;
+    QWebSocket *webSocket;
+    QSettings *settings;
 
-    void openMainWindow();
+    QJsonObject m_currentJsonObject;
+
 };
+
 #endif // MAINWINDOW_H
