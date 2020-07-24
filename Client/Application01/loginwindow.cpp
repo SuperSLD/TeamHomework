@@ -66,7 +66,8 @@ LoginWindow::LoginWindow(QWidget *parent)
                           "}"
                           "QPushButton:hover {"
                           "background-color:#47B0D0;"
-                          "}";
+                          "}"
+                          ;
 
     QString editTextStyle = "border: 1px solid #5FB0A9;"
                             "color: white;"
@@ -118,7 +119,8 @@ LoginWindow::LoginWindow(QWidget *parent)
 
     ui->setLayout(mainVLayout);
 
-    resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
+    this->resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
+    this->setWindowIcon(QIcon(":/resc/resc/icon.png"));
     this->setWindowTitle("Login");
     this->show();
 }
