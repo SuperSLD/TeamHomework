@@ -15,6 +15,7 @@
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QDesktopWidget>
 
 LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent) {
@@ -29,14 +30,15 @@ LoginWindow::LoginWindow(QWidget *parent)
     this->setCentralWidget(ui);
 
     QVBoxLayout *mainVLayout = new QVBoxLayout;
-    QVBoxLayout *mainHLayout = new QVBoxLayout;
-    QWidget *centerConainer = new QWidget;
+    QHBoxLayout *mainHLayout = new QHBoxLayout;
+    QHBoxLayout *buttnContainer = new QHBoxLayout;
+    QFrame *centerConainer = new QFrame;
     QVBoxLayout *centerLayout = new QVBoxLayout;
 
-    QLabel *titleLabel = new QLabel("<span style='color:#5FB0A9;'>Team</span>"
-                                    "<span style='color:white;'>Work</span>");
-    QLabel *loginLabel = new QLabel("Почта");
-    QLabel *passwordLabel = new QLabel("Пароль");
+    QLabel *titleLabel = new QLabel("<span style='font-size:30px; color:#5FB0A9;'>Team</span>"
+                                    "<span style='font-size:30px; color:white;'>Work</span>");
+    QLabel *loginLabel = new QLabel("<span style='font-size:10px; color:#494951;'>Почта:</span>");
+    QLabel *passwordLabel = new QLabel("<span style='font-size:10px; color:#494951;'>Пароль:</span>");
 
     QPushButton *loginButton = new QPushButton("Вход");
 
@@ -44,25 +46,50 @@ LoginWindow::LoginWindow(QWidget *parent)
                          "margin-left:20px;"
                          "margin-right:20px;";
 
-    QString centrerContainerStyle = "background-color:#282830;";
+    QString centrerContainerStyle = "QFrame {"
+                                    "background-color:#282830;"
+                                    "border-radius:10px;"
+                                    "height:400px;"
+                                    "width:300px;"
+                                    "}";
 
-    QString buttonStyle = "color: white;"
+    QString buttonStyle = "QPushButton {"
+                          "color: #282830;"
+                          "background-color:#5FB0A9;"
                           "margin-bottom:20px;"
-                          "border:none;";
+                          "margin-top:20px;"
+                          "border:none;"
+                          "height:17px;"
+                          "width:100px;"
+                          "padding:5px;"
+                          "border-radius:10px;"
+                          "}"
+                          "QPushButton:hover {"
+                          "background-color:#47B0D0;"
+                          "}";
 
     QString editTextStyle = "border: 1px solid #5FB0A9;"
                             "color: white;"
-                            "height:30px;"
-                            "width:300px;"
-                            "margin:20px;"
-                            "padding:10px;";
+                            "background-color:#282830;"
+                            "font-size:13px;"
+                            "height:17px;"
+                            "width:150px;"
+                            "margin-left:20px;"
+                            "margin-right:20px;"
+                            "border-radius:10px;"
+                            "padding:5px;";
 
     titleLabel->setStyleSheet(labelStyle + "margin-top:20px;");
     titleLabel->setAlignment(Qt::AlignCenter);
     loginLabel->setStyleSheet(labelStyle);
     passwordLabel->setStyleSheet(labelStyle);
 
+    buttnContainer->setAlignment(Qt::AlignCenter);
+    buttnContainer->addWidget(loginButton);
     loginButton->setStyleSheet(buttonStyle);
+    loginButton->setSizePolicy(QSizePolicy(QSizePolicy::Fixed,
+                                           QSizePolicy::Fixed,
+                                           QSizePolicy::ToolButton));
     connect(loginButton, SIGNAL(pressed()), this, SLOT(onLoginButtonActive()));
 
     loginEdit = new QLineEdit();
@@ -78,8 +105,9 @@ LoginWindow::LoginWindow(QWidget *parent)
     centerLayout->addWidget(loginEdit);
     centerLayout->addWidget(passwordLabel);
     centerLayout->addWidget(passwordEdit);
-    centerLayout->addWidget(loginButton);
+    centerLayout->addLayout(buttnContainer);
     centerLayout->setContentsMargins(0,0,0,0);
+    centerLayout->setAlignment(Qt::AlignCenter);
     centerConainer->setLayout(centerLayout);
     centerConainer->setStyleSheet(centrerContainerStyle);
 
@@ -89,6 +117,8 @@ LoginWindow::LoginWindow(QWidget *parent)
     mainVLayout->setAlignment(Qt::AlignCenter);
 
     ui->setLayout(mainVLayout);
+
+    resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
     this->setWindowTitle("Login");
     this->show();
 }
