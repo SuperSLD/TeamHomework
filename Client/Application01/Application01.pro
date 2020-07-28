@@ -2,6 +2,7 @@ QT       += core gui
 QT += network
 QT += sql
 QT += websockets
+QT += widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,23 +21,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     chat.cpp \
-    httprequest.cpp \
+    loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    property.cpp \
-    secondwindow.cpp
+    property.cpp
 
 HEADERS += \
     chat.h \
-    httprequest.h \
+    loginwindow.h \
     mainwindow.h \
-    property.h \
-    secondwindow.h
-
-FORMS += \
-    chat.ui \
-    mainwindow.ui \
-    secondwindow.ui
+    property.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

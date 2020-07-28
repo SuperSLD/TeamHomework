@@ -1,23 +1,11 @@
-#ifndef CHAT_H
-#define CHAT_H
-
 #include <QLabel>
+#include <QWebSocket>
 
-namespace Ui {
-class Chat;
-}
-
-class Chat : public QLabel
-{
-    Q_OBJECT
-
-public:
-    explicit Chat(QWidget *parent = nullptr);
-    ~Chat();
-
+class ChatWidget : public QWidget {
 private:
-    Ui::Chat *ui;
-
+    QWebSocket *webSocket;
+protected:
+public:
+    ChatWidget(QWebSocket *webSocket);
+    ~ChatWidget();
 };
-
-#endif // CHAT_H

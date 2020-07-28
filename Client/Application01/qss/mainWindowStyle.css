@@ -1,0 +1,50 @@
+QWidget#ui{
+}
+QFrame#headFrame {
+    background-color:#10B4D0;
+    padding: 20px;
+    border: none;
+    border-bottom: 2px solid #16151D;
+}
+QFrame#menuContainer {
+    background-color:#282830;
+}
+QStackedWidget#mainContent {
+    background-color:#16151D;
+}
+QLabel#name,QLabel#lastname,QLabel#email {
+    color: white;
+    font-size:12px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+QLabel#name {
+    padding-top: 5px;
+}
+QLabel#email {
+    padding-bottom: 5px;
+    border: none;
+    border-bottom: 1px solid #16151D;
+}
+QPushButton#menuButton {
+    color: white;
+    background-color:#282830;
+    border: none;
+    border-bottom: 1px solid #16151D;
+    padding: 7px;
+    font-size:10px;
+}
+QPushButton#menuButton:hover {
+    background:#22212D;
+}
+QPushButton#exitButton {
+    color: #D64A55;
+    background-color:#282830;
+    border: none;
+    border-top: 1px solid #16151D;
+    padding: 7px;
+    font-size:10px;
+}
+QPushButton#exitButton:hover {
+    background:#22212D;
+}

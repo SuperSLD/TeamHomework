@@ -1,14 +1,17 @@
 #include "chat.h"
-#include "ui_chat.h"
 
-Chat::Chat(QWidget *parent) :
-    QLabel(parent),
-    ui(new Ui::Chat)
-{
-    ui->setupUi(this);
+#include <QVBoxLayout>
+
+ChatWidget::ChatWidget(QWebSocket *webSocket)
+    : QWidget() {
+    this->webSocket = webSocket;
+
+    QVBoxLayout *ui = new QVBoxLayout;
+
+
+    this->setLayout(ui);
 }
 
-Chat::~Chat()
-{
-    delete ui;
+ChatWidget::~ChatWidget() {
+
 }
