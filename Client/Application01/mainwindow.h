@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QWebSocket>
-#include "chat.h"
+#include "chatwidget.h"
+#include "deskwidget.h"
 
 #include <QJsonObject>
 #include <QSettings>
@@ -38,14 +39,15 @@ private slots:
     void onMessage(QString message);
     void onDisconnected();
 
-    void on_pushButton_5_clicked();
-
     void keyPressEvent(QKeyEvent *event);
 
 private:
     QWebSocket *webSocket;
     QSettings *settings;
     QStackedWidget *mainContent;
+
+    ChatWidget *chat;
+    DeskWidget *desk;
 
     QJsonObject m_currentJsonObject;
 
