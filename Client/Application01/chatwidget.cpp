@@ -143,21 +143,23 @@ void ChatWidget::addMessage(QString author,
     QFrame *messageContainer = new QFrame;
     QVBoxLayout *messageContainerLayout = new QVBoxLayout;
 
+    QLabel *timeLabel = new QLabel(time);
+
     if (isThhisUser) {
         messageContainer->setObjectName("thisUser");
         messageLayout->setAlignment(Qt::AlignRight);
+        timeLabel->setObjectName("timeThisUser");
     } else {
         messageContainer->setObjectName("otherUser");
         QLabel *authorLabel = new QLabel(author);
         authorLabel->setObjectName("author");
         messageContainerLayout->addWidget(authorLabel);
         messageLayout->setAlignment(Qt::AlignLeft);
+        timeLabel->setObjectName("time");
     }
 
     QLabel *textLabel = new QLabel(text);
     textLabel->setObjectName("text");
-    QLabel *timeLabel = new QLabel(time);
-    timeLabel->setObjectName("time");
     timeLabel->setAlignment(Qt::AlignRight);
     messageContainerLayout->addWidget(textLabel);
     messageContainerLayout->addWidget(timeLabel);
