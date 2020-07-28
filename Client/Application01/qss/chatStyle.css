@@ -34,11 +34,15 @@ QFrame#otherUser {
     margin-left: 10px;
 }
 QLabel#author {
-    color: #0C8699;
+    color: #4FC7FF;
     font-size:12px;
 }
 QLabel#text {
     color: white;
+    font-size:12px;
+}
+QLabel#timeThisUser {
+    color: #68EFFF;
     font-size:12px;
 }
 QLabel#time {
