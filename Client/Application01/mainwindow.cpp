@@ -81,12 +81,15 @@ MainWindow::MainWindow(QWidget *parent) :
     chatButton->setObjectName("menuButton");
     chatButton->setIcon(
         QPixmap(":/resc/resc/chat_bubble_outline-white-18dp.svg"));
+    connect(chatButton, SIGNAL(clicked()), this, SLOT(chatButtonClicked()));
     deskButton->setObjectName("menuButton");
     deskButton->setIcon(
                 QPixmap(":/resc/resc/chrome_reader_mode-white-18dp.svg"));
+    connect(deskButton, SIGNAL(clicked()), this, SLOT(deskButtonClicked()));
     filesButton->setObjectName("menuButton");
     filesButton->setIcon(
                 QIcon(":/resc/resc/folder_shared-white-18dp.svg"));
+    connect(filesButton, SIGNAL(clicked()), this, SLOT(filesButtonClicked()));
     exitButon->setObjectName("exitButton");
     connect(exitButon, SIGNAL(clicked()), this, SLOT(exitButtonClicked()));
 
@@ -127,7 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(ui);
     this->resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
     this->setWindowIcon(QIcon(":/resc/resc/icon.png"));
-    this->setWindowTitle("Вход");
+    this->setWindowTitle("Сообщения");
 }
 
 MainWindow::~MainWindow(){
@@ -165,6 +168,7 @@ void MainWindow::exitButtonClicked() {
 
 void MainWindow::filesButtonClicked() {
     mainContent->setCurrentIndex(1);
+    this->setWindowTitle("Файлы");
 }
 
 /**
@@ -177,6 +181,7 @@ void MainWindow::filesButtonClicked() {
 
 void MainWindow::chatButtonClicked(){
     mainContent->setCurrentIndex(0);
+    this->setWindowTitle("Сообщения");
 }
 
 /**
@@ -190,6 +195,7 @@ void MainWindow::chatButtonClicked(){
 void MainWindow::deskButtonClicked(){
     /*ui->label_7->setText("Здесь скоро появятся Задачи");
     ui->stackedWidget->setCurrentIndex(3);*/
+    this->setWindowTitle("Задачи");
 }
 
 /**
