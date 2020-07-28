@@ -3,5 +3,9 @@
         <file>resc/1.jpg</file>
         <file>resc/back_login.png</file>
         <file>resc/icon.png</file>
+        <file>qss/mainWindowStyle.css</file>
+        <file>resc/chat_bubble_outline-white-18dp.svg</file>
+        <file>resc/chrome_reader_mode-white-18dp.svg</file>
+        <file>resc/folder_shared-white-18dp.svg</file>
     </qresource>
 </RCC>

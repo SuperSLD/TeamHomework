@@ -17,14 +17,20 @@
 #include <QPushButton>
 #include <QDesktopWidget>
 
+/**
+ * @brief LoginWindow::LoginWindow
+ * @param parent
+ *
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
+ */
 LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent) {
     //Проверка на то был ли пользователь авторизован.
     QSettings *settings = new QSettings("settings.ini", QSettings::IniFormat);
-    /*if (settings->value("email", "").toString().length() > 4) {
+    if (settings->value("email", "").toString().length() > 4) {
         openMainWindow();
         return;
-    }*/
+    }
 
     QWidget *ui = new QWidget;
     this->setCentralWidget(ui);
@@ -91,7 +97,7 @@ LoginWindow::LoginWindow(QWidget *parent)
     loginButton->setSizePolicy(QSizePolicy(QSizePolicy::Fixed,
                                            QSizePolicy::Fixed,
                                            QSizePolicy::ToolButton));
-    connect(loginButton, SIGNAL(pressed()), this, SLOT(onLoginButtonActive()));
+    connect(loginButton, SIGNAL(clicked()), this, SLOT(onLoginButtonActive()));
 
     loginEdit = new QLineEdit();
     loginEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -121,7 +127,7 @@ LoginWindow::LoginWindow(QWidget *parent)
 
     this->resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
     this->setWindowIcon(QIcon(":/resc/resc/icon.png"));
-    this->setWindowTitle("Login");
+    this->setWindowTitle("");
     this->show();
 }
 
@@ -216,7 +222,7 @@ void LoginWindow::onResult(QNetworkReply *reply)
             settings->sync(); //записываем настройки
 
             //переход к следующему окну.
-            openMainWindow();
+            this->openMainWindow();
         } else if (obj["errcode"].toString() == "1"){
             QMessageBox::warning(this, "Ошибка", "Почта не найдена!");
         } else if (obj["errcode"].toString() == "2"){
@@ -237,8 +243,8 @@ void LoginWindow::onResult(QNetworkReply *reply)
  */
 void LoginWindow::openMainWindow() {
     hide();
-    //mainWindow = new MainWindow();
-    //connect(mainWindow, &MainWindow::LoginWindow,this, &LoginWindow::show);
-    //mainWindow->show();
+    mainWindow = new MainWindow();
+    connect(mainWindow, &MainWindow::LoginWindow,this, &LoginWindow::show);
+    mainWindow->show();
     this->close();
 }

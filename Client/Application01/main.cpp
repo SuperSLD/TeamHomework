@@ -5,9 +5,8 @@
 int main(int argc, char *argv[])
 {
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
     QApplication a(argc, argv);
-
-    qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
 
     LoginWindow w;
     return a.exec();

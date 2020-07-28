@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "MainWindow.h"
 #include "property.h"
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -14,6 +14,10 @@
 #include <QScrollBar>
 #include <QGridLayout>
 #include <QtCore>
+#include <QDesktopWidget>
+#include <QStackedWidget>
+#include <QPushButton>
+#include <QApplication>
 
 
 /**
@@ -22,49 +26,125 @@
  *
  * Создание окна главного меню. Выпонляется при успешной авторизации.
  *
- * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent) {
 
-    /*
+    QString style = "";
+    QFile file(":/resc/qss/mainWindowStyle.css");
+    if(file.open(QFile::ReadOnly)) {
+          style = QLatin1String(file.readAll());
+    } else {
+        qDebug() << "style error" << endl;
+    }
+
+    QWidget *ui = new QWidget;
+    ui->setObjectName("ui");
+    QHBoxLayout *mainLayout = new QHBoxLayout;
+    QFrame *menuContainer = new QFrame;
+    mainContent = new QStackedWidget;
+
+    ChatWidget *chat = new ChatWidget(webSocket);
+
+    mainContent->addWidget(chat);
+    mainContent->setObjectName("mainContent");
+    mainContent->setCurrentIndex(0);
+
+    //Боковое меню
+    QVBoxLayout *menuTopLayout = new QVBoxLayout;
+     QVBoxLayout *menuBottomLayout = new QVBoxLayout;
+    QVBoxLayout *menuMainLayout = new QVBoxLayout;
+    QFrame *headitem = new QFrame;
+    QVBoxLayout *headContaiter = new QVBoxLayout;
+    QLabel *userIcon = new QLabel;
     QPixmap pix1(":/resc/resc/1.jpg");
-    int w = ui->label_5->width();
-    int h = ui->label_5->height();
+
+    QLabel *nameLabel = new QLabel;
+    QLabel *lastnameLabel = new QLabel;
+    QLabel *emailLabel = new QLabel;
+
+    QPushButton *chatButton = new QPushButton("Сообщения");
+    QPushButton *filesButton = new QPushButton("Файлы");
+    QPushButton *deskButton = new QPushButton("Задачи");
+    QPushButton *exitButon = new QPushButton("Выйти");
 
     settings = new QSettings("settings.ini", QSettings::IniFormat);
-    ui->label_5->setPixmap(pix1.scaled(w, h, Qt::KeepAspectRatio));
-    ui->label_3->setText(settings->value("name", "default").toString());
-    ui->label->setText(settings->value("lastname", "default").toString());
-    ui->label_2->setText(settings->value("email", "default").toString());
 
-    ui->scrollArea->setWidgetResizable(true);
+    nameLabel->setText(settings->value("name", "default").toString());
+    nameLabel->setObjectName("name");
+    lastnameLabel->setText(settings->value("lastname", "default").toString());
+    lastnameLabel->setObjectName("lastname");
+    emailLabel->setText(settings->value("email", "default").toString());
+    emailLabel->setObjectName("email");
 
-    webSocket  = new QWebSocket();
-    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
-    //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
-    connect(webSocket, SIGNAL(connected()), this, SLOT(onConnected()));
-    connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
-    connect(webSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+    chatButton->setObjectName("menuButton");
+    chatButton->setIcon(
+        QPixmap(":/resc/resc/chat_bubble_outline-white-18dp.svg"));
+    deskButton->setObjectName("menuButton");
+    deskButton->setIcon(
+                QPixmap(":/resc/resc/chrome_reader_mode-white-18dp.svg"));
+    filesButton->setObjectName("menuButton");
+    filesButton->setIcon(
+                QIcon(":/resc/resc/folder_shared-white-18dp.svg"));
+    exitButon->setObjectName("exitButton");
+    connect(exitButon, SIGNAL(clicked()), this, SLOT(exitButtonClicked()));
 
-    Chat *chat = new Chat();
-    ui->stackedWidget->addWidget(chat);*/
+    userIcon->setPixmap(pix1.scaled(50, 50,
+                                    Qt::KeepAspectRatio));
+    headContaiter->addWidget(userIcon);
+    headitem->setObjectName("headFrame");
+    headitem->setLayout(headContaiter);
+    menuTopLayout->addWidget(headitem);
+    menuTopLayout->addWidget(nameLabel);
+    menuTopLayout->addWidget(lastnameLabel);
+    menuTopLayout->addWidget(emailLabel);
+    menuTopLayout->addWidget(chatButton);
+    menuTopLayout->addWidget(deskButton);
+    menuTopLayout->addWidget(filesButton);
+    menuTopLayout->setContentsMargins(0,0,0,0);
+    menuTopLayout->setSpacing(0);
+    menuBottomLayout->addWidget(exitButon);
+    menuBottomLayout->setContentsMargins(0,0,0,0);
+
+    menuTopLayout->setAlignment(Qt::AlignTop);
+    menuBottomLayout->setAlignment(Qt::AlignBottom);
+    menuMainLayout->addLayout(menuTopLayout);
+    menuMainLayout->addLayout(menuBottomLayout);
+    menuMainLayout->setContentsMargins(0,0,0,0);
+    menuContainer->setLayout(menuMainLayout);
+    menuContainer->setObjectName("menuContainer");
+    menuContainer->setContentsMargins(0,0,0,0);
+
+    mainLayout->addWidget(menuContainer);
+    mainLayout->addWidget(mainContent);
+    mainLayout->setAlignment(Qt::AlignLeft);
+    mainLayout->setContentsMargins(0,0,0,0);
+    mainLayout->setSpacing(0);
+
+    ui->setLayout(mainLayout);
+    this->setStyleSheet(style);
+    this->setCentralWidget(ui);
+    this->resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
+    this->setWindowIcon(QIcon(":/resc/resc/icon.png"));
+    this->setWindowTitle("Вход");
 }
 
 MainWindow::~MainWindow(){
     delete webSocket;
     delete settings;
+    delete mainContent;
 }
 
 /**
- * @brief SecondWindow::on_pushButton_2_clicked
+ * @brief SecondWindow::exitButtonClicked
  *
  * Выполняется при нажатии кнопки Выход.
  *
- * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 
-void MainWindow::on_pushButton_2_clicked() {
+void MainWindow::exitButtonClicked() {
     settings->setValue("name", "");
     settings->setValue("lastname", "");
     settings->setValue("password", "");
@@ -72,7 +152,7 @@ void MainWindow::on_pushButton_2_clicked() {
     settings->setValue("id", "");
     settings->sync();
 
-    //QApplication::quit();
+    QApplication::quit();
 }
 
 /**
@@ -80,13 +160,11 @@ void MainWindow::on_pushButton_2_clicked() {
  *
  * Выполняется при нажатии кнопки Файлы.
  *
- * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 
-void MainWindow::on_pushButton_clicked()
-{
-    //ui->label_6->setText("Здесь скоро появятся Файлы");
-    //ui->stackedWidget->setCurrentIndex(1);
+void MainWindow::filesButtonClicked() {
+    mainContent->setCurrentIndex(1);
 }
 
 /**
@@ -94,14 +172,11 @@ void MainWindow::on_pushButton_clicked()
  *
  * Выполняется при нажатии кнопки Сообщения.
  *
- * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 
-void MainWindow::on_pushButton_4_clicked()
-{
-
-    //ui->stackedWidget->setCurrentIndex(0);
-
+void MainWindow::chatButtonClicked(){
+    mainContent->setCurrentIndex(0);
 }
 
 /**
@@ -109,11 +184,10 @@ void MainWindow::on_pushButton_4_clicked()
  *
  * Выполняется при нажатии кнопки Задачи.
  *
- * @author Zinyukov Pavel (FlyForest962@yandex.ru)
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 
-void MainWindow::on_pushButton_3_clicked()
-{
+void MainWindow::deskButtonClicked(){
     /*ui->label_7->setText("Здесь скоро появятся Задачи");
     ui->stackedWidget->setCurrentIndex(3);*/
 }
@@ -320,3 +394,24 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         }
     }*/
 }
+
+/*
+    settings = new QSettings("settings.ini", QSettings::IniFormat);
+    ui->label_5->setPixmap(pix1.scaled(w, h, Qt::KeepAspectRatio));
+    ui->label_3->setText(settings->value("name", "default").toString());
+    ui->label->setText(settings->value("lastname", "default").toString());
+    ui->label_2->setText(settings->value("email", "default").toString());
+
+    ui->scrollArea->setWidgetResizable(true);
+
+    webSocket  = new QWebSocket();
+    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
+    //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
+    connect(webSocket, SIGNAL(connected()), this, SLOT(onConnected()));
+    connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
+    connect(webSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+
+    Chat *chat = new Chat();
+    ui->stackedWidget->addWidget(chat);
+
+ */

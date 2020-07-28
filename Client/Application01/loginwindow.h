@@ -12,6 +12,17 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class LoginWindow; }
 QT_END_NAMESPACE
 
+/**
+ * @brief The LoginWindow class
+ *
+ * Класс окна авторизации.
+ *
+ * Проверка данных пользователя при входе
+ * и отображение ошибок авторизации.
+ *
+ * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
+ * @todo Реализовать отображение ошибок связанных с интернетом.
+ */
 class LoginWindow : public QMainWindow
 {
     Q_OBJECT
@@ -30,7 +41,7 @@ private slots:
 
 private:
     QWidget ui;
-    //MainWindow *mainWindow;
+    MainWindow *mainWindow;
     QNetworkAccessManager *networkManager;
 
     QLineEdit *loginEdit;

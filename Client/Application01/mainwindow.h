@@ -7,6 +7,7 @@
 
 #include <QJsonObject>
 #include <QSettings>
+#include <QStackedWidget>
 
 
 namespace Ui {
@@ -27,10 +28,11 @@ signals:
     void LoginWindow();
 
 private slots:
-    void on_pushButton_2_clicked();
-    void on_pushButton_clicked();
-    void on_pushButton_4_clicked();
-    void on_pushButton_3_clicked();
+    void exitButtonClicked();
+
+    void chatButtonClicked();
+    void deskButtonClicked();
+    void filesButtonClicked();
 
     void onConnected();
     void onMessage(QString message);
@@ -43,6 +45,7 @@ private slots:
 private:
     QWebSocket *webSocket;
     QSettings *settings;
+    QStackedWidget *mainContent;
 
     QJsonObject m_currentJsonObject;
 
