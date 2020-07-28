@@ -20,14 +20,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    chat.cpp \
+    chatwidget.cpp \
+    deskwidget.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     property.cpp
 
 HEADERS += \
-    chat.h \
+    chatwidget.h \
+    deskwidget.h \
     loginwindow.h \
     mainwindow.h \
     property.h

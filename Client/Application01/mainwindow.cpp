@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "deskwidget.h"
 #include "property.h"
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -31,6 +32,13 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent) {
 
+    webSocket  = new QWebSocket();
+    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
+    //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
+    connect(webSocket, SIGNAL(connected()), this, SLOT(onConnected()));
+    connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
+    connect(webSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+
     QString style = "";
     QFile file(":/resc/qss/mainWindowStyle.css");
     if(file.open(QFile::ReadOnly)) {
@@ -45,9 +53,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QFrame *menuContainer = new QFrame;
     mainContent = new QStackedWidget;
 
-    ChatWidget *chat = new ChatWidget(webSocket);
+    chat = new ChatWidget(webSocket);
+    desk = new DeskWidget(webSocket);
 
     mainContent->addWidget(chat);
+    mainContent->addWidget(desk);
     mainContent->setObjectName("mainContent");
     mainContent->setCurrentIndex(0);
 
@@ -58,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QFrame *headitem = new QFrame;
     QVBoxLayout *headContaiter = new QVBoxLayout;
     QLabel *userIcon = new QLabel;
-    QPixmap pix1(":/resc/resc/1.jpg");
+    QPixmap pix1(":/resc/resc/user.png");
 
     QLabel *nameLabel = new QLabel;
     QLabel *lastnameLabel = new QLabel;
@@ -81,12 +91,15 @@ MainWindow::MainWindow(QWidget *parent) :
     chatButton->setObjectName("menuButton");
     chatButton->setIcon(
         QPixmap(":/resc/resc/chat_bubble_outline-white-18dp.svg"));
+    connect(chatButton, SIGNAL(clicked()), this, SLOT(chatButtonClicked()));
     deskButton->setObjectName("menuButton");
     deskButton->setIcon(
                 QPixmap(":/resc/resc/chrome_reader_mode-white-18dp.svg"));
+    connect(deskButton, SIGNAL(clicked()), this, SLOT(deskButtonClicked()));
     filesButton->setObjectName("menuButton");
     filesButton->setIcon(
                 QIcon(":/resc/resc/folder_shared-white-18dp.svg"));
+    connect(filesButton, SIGNAL(clicked()), this, SLOT(filesButtonClicked()));
     exitButon->setObjectName("exitButton");
     connect(exitButon, SIGNAL(clicked()), this, SLOT(exitButtonClicked()));
 
@@ -127,13 +140,16 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(ui);
     this->resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
     this->setWindowIcon(QIcon(":/resc/resc/icon.png"));
-    this->setWindowTitle("Вход");
+    this->setWindowTitle("Сообщения");
 }
 
 MainWindow::~MainWindow(){
     delete webSocket;
     delete settings;
     delete mainContent;
+
+    delete chat;
+    delete desk;
 }
 
 /**
@@ -164,7 +180,8 @@ void MainWindow::exitButtonClicked() {
  */
 
 void MainWindow::filesButtonClicked() {
-    mainContent->setCurrentIndex(1);
+    mainContent->setCurrentIndex(2);
+    this->setWindowTitle("Файлы");
 }
 
 /**
@@ -177,6 +194,7 @@ void MainWindow::filesButtonClicked() {
 
 void MainWindow::chatButtonClicked(){
     mainContent->setCurrentIndex(0);
+    this->setWindowTitle("Сообщения");
 }
 
 /**
@@ -188,8 +206,8 @@ void MainWindow::chatButtonClicked(){
  */
 
 void MainWindow::deskButtonClicked(){
-    /*ui->label_7->setText("Здесь скоро появятся Задачи");
-    ui->stackedWidget->setCurrentIndex(3);*/
+    mainContent->setCurrentIndex(1);
+    this->setWindowTitle("Задачи");
 }
 
 /**
@@ -200,11 +218,6 @@ void MainWindow::deskButtonClicked(){
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 void MainWindow::onConnected() {
-    /*ui->stackedWidget->setCurrentIndex(2);
-    ui->label_4->setText("WebSocket подключен");
-    ui->onlineLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:#9EFFB1;"
-                            " font-family:consolas;\">online</span></p></body></html>");
-
     QJsonObject textObject;
     textObject["id"] = settings->value("id").toString();
     textObject["key"] = settings->value("password").toString();
@@ -212,7 +225,7 @@ void MainWindow::onConnected() {
 
     QJsonDocument doc(textObject);
     QString strJson(doc.toJson(QJsonDocument::Compact));
-    webSocket->sendTextMessage(strJson);*/
+    webSocket->sendTextMessage(strJson);
 }
 
 /**
@@ -243,7 +256,6 @@ void MainWindow::onDisconnected() {
  * @author Kuklin Egor(kuklin_99@bk.ru)
  */
 void MainWindow::onMessage(QString string) {
-    /*
     //создаем JSON object из строки.
     QJsonDocument doc = QJsonDocument::fromJson(string.toUtf8());
     QJsonObject obj;
@@ -262,99 +274,7 @@ void MainWindow::onMessage(QString string) {
 
     if (messasgeType == "ping") {
         //обработка тестового пинг сообщения.
-    } else if (messasgeType == "group_message") {
-        //обработка сообщения группового чата.
-        addMessage(obj["message"].toString(),
-                   obj["time"].toString(),
-                   obj["author"].toString());
     }
-    */
-}
-
-/**
- * @brief SecondWindow::on_pushButton_5_clicked
- *
- * Отправка сообщений в чат с указанием отправителя и время отправки.
- *
- * @author Zinyukov Pavel (FlyForest962@yandex.ru) (Пустая функция.)
- * @author Nikita Tambov (tambovnikita@yandex.ru) (Преобразование сообщений в JSON.)
- */
-
-void MainWindow::on_pushButton_5_clicked() {
-    /*
-    QString message = ui->lineEdit->text();
-
-    if (message==""){
-
-    } else {
-        // Создаём объект текста
-        QJsonObject textObject;
-        textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
-        textObject["author"] = (settings->value("name", "default").toString()
-                                + " " + settings->value("lastname", "default").toString());  // Устанавливаем author
-        textObject["type"] = "group_message";  // Устанавливаем type
-        textObject["message_type"] = "simple_message";  // Устанавливаем message_type
-
-        QJsonDocument doc(textObject);
-        QString strJson(doc.toJson(QJsonDocument::Compact));
-        webSocket->sendTextMessage(strJson);
-    }
-    */
-}
-
-
-/**
- * @brief SecondWindow::addMessage
- * @param message текст сообщения.
- * @param time время отправки (а не время получения).
- * @param author автор сообщения.
- * 
- * Вставка сообщения в чат.
- * 
- * @author Zinyukov Pavel (FlyForest962@yandex.ru) (написал весь код)
- * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
- * (обернул в функцию и немного доработал внешний вид сообщений)
- *
- * @author Nikita Tambov (tambovnikita@yandex.ru)
- * (Автоматическая прокрутка чата.)
- */
- void MainWindow::addMessage(QString message, QString time, QString author) {
-    /*QLabel *authorLabel = new QLabel ();
-    QLabel *timeLabel = new QLabel ();
-    QLabel *messageContent = new QLabel();
-    QString authorColor = "white";
-    if (author == (settings->value("name", "default").toString()
-                   + " " + settings->value("lastname", "default").toString())) {
-        authorColor = "#87FFD5";
-    }
-
-    //Создание сообщения.
-    QVBoxLayout *messageBox = new QVBoxLayout();
-    QHBoxLayout *messageTitle = new QHBoxLayout();
-
-    authorLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:"+authorColor+";"
-                    " font-family:arial;\">"+author+"</span></p></body></html>");
-    authorLabel->setStyleSheet("QLabel {"
-                               "border-style: solid;"
-                               "border-width: 1px;"
-                               "border-color: #808080; "
-                               "border-radius: 10px;"
-                               "}");
-    timeLabel->setText("<html><head><head/><body><p><span style=\" "
-                    "color:#808080; font-family:arial;\"> "+time+"</span></p></body></html>");
-    messageContent->setText(message);
-    messageTitle->addWidget(authorLabel);
-    messageTitle->addWidget(timeLabel);
-    messageBox->addLayout(messageTitle);
-    messageBox->addWidget(messageContent);
-    messageBox->setAlignment(messageTitle, Qt::AlignLeft);
-    messageBox->setAlignment(messageContent, Qt::AlignLeft);
-
-    ui->verticalLayout->addLayout(messageBox);
-
-    ui->lineEdit->clear();
-    ui->scrollArea->verticalScrollBar()->setValue(
-            ui->scrollArea->verticalScrollBar()->maximumHeight());*/
 }
 
 /**
@@ -364,54 +284,12 @@ void MainWindow::on_pushButton_5_clicked() {
  * Отправка сообщения в чат с помощью кнопки Enter.
  *
  * @author Zinyukov Pavel (FlyForest962@yandex.ru)
- * @author Nikita Tambov (tambovnikita@yandex.ru) (Преобразование сообщений в JSON.)
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-    /*
-    //не самый лучший момент
-    //дублирование большого куска кода
-    //TODO вынести этот кусок в функцию
-    if (event->key()==Qt::Key_Enter || event->key() == Qt::Key_Return)
-    {
-        QString str3 = ui->lineEdit->text();
-        if (str3=="")
-        {
-
-        }
-        else
-        {
-            QJsonObject textObject;
-            textObject["message"] = ui->lineEdit->text();  // Устанавливаем message
-            textObject["author"] = (settings->value("name", "default").toString()
-                                    + " " + settings->value("lastname", "default").toString());  // Устанавливаем author
-            textObject["type"] = "group_message";  // Устанавливаем type
-            textObject["message_type"] = "simple_message";  // Устанавливаем message_type
-
-            QJsonDocument doc(textObject);
-            QString strJson(doc.toJson(QJsonDocument::Compact));
-            webSocket->sendTextMessage(strJson);
-        }
-    }*/
+    if ((event->key()==Qt::Key_Enter || event->key() == Qt::Key_Return)
+            && mainContent->currentIndex() == 0) {
+        chat->sendMessage();
+    }
 }
-
-/*
-    settings = new QSettings("settings.ini", QSettings::IniFormat);
-    ui->label_5->setPixmap(pix1.scaled(w, h, Qt::KeepAspectRatio));
-    ui->label_3->setText(settings->value("name", "default").toString());
-    ui->label->setText(settings->value("lastname", "default").toString());
-    ui->label_2->setText(settings->value("email", "default").toString());
-
-    ui->scrollArea->setWidgetResizable(true);
-
-    webSocket  = new QWebSocket();
-    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
-    //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
-    connect(webSocket, SIGNAL(connected()), this, SLOT(onConnected()));
-    connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
-    connect(webSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
-
-    Chat *chat = new Chat();
-    ui->stackedWidget->addWidget(chat);
-
- */

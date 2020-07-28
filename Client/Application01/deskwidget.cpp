@@ -1,17 +1,19 @@
-#include "chat.h"
+#include "deskwidget.h"
 
 #include <QVBoxLayout>
+#include <QWebSocket>
 
-ChatWidget::ChatWidget(QWebSocket *webSocket)
+DeskWidget::DeskWidget(QWebSocket *webSocket)
     : QWidget() {
     this->webSocket = webSocket;
 
     QVBoxLayout *ui = new QVBoxLayout;
 
 
+
     this->setLayout(ui);
 }
 
-ChatWidget::~ChatWidget() {
-
+DeskWidget::~DeskWidget() {
+    delete webSocket;
 }

@@ -1,0 +1,89 @@
+QPushButton#sendButton {
+    background: #10B4D0;
+    padding: 3px;
+}
+QPushButton#sendButton:hover {
+    background: #0C8699;
+}
+
+QFrame#messageEditorContainer {
+    background: #282830;
+    border: 1px solid #16151D;
+    padding: 3px;
+}
+
+QLineEdit#messageLineEdit {
+    background: #282830;
+    padding: 4px;
+    font-size:12px;
+    color: white;
+
+    margin-right: 5px;
+
+    border: none;
+    border-bottom: 1px solid #16151D;
+}
+QFrame#thisUser {
+    background: #4FC7FF;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+QFrame#otherUser {
+    background: #393944;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+QLabel#author {
+    color: #0C8699;
+    font-size:12px;
+}
+QLabel#text {
+    color: white;
+    font-size:12px;
+}
+QLabel#time {
+    color: #575775;
+    font-size:10px;
+}
+QWidget#scrollArea {
+    background-color: #16151D;
+}
+
+
+QScrollBar:vertical {
+    border: 0px solid #c6c6c6;
+    background: transparent;
+    width: 13px;
+    margin: 0px 0px 0px 0px;
+}
+QScrollBar:horizontal {
+    border: 0px solid #c6c6c6;
+    background: transparent;
+    height: 13px;
+    margin: 0px 0px 0px 0px;
+}
+QScrollBar::handle {
+    background: #c6c6c6;
+    border: 3px solid %1;
+    border-radius: 6px;
+}
+QScrollBar::add-line:vertical {
+    height: 0px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:vertical {
+    height: 0 px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+QScrollBar::add-line:horizontal {
+    width: 0px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:horizontal {
+    width: 0 px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
