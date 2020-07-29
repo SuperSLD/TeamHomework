@@ -22,8 +22,10 @@ private:
     QLineEdit *messageLineEdit;
     QSettings *settings;
     QScrollArea *scrollMessage;
+    int maxMessageW;
 
     void addMessage(QString author,QString text,QString time,bool isThhisUser);
+    void splitMessage(QLabel *text);
 
 private slots:
 

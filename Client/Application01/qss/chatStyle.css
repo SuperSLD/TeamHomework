@@ -40,6 +40,8 @@ QLabel#author {
 QLabel#text {
     color: white;
     font-size:12px;
+    background-color: transparent;
+    border: 0px;
 }
 QLabel#timeThisUser {
     color: #68EFFF;
@@ -57,13 +59,13 @@ QWidget#scrollArea {
 QScrollBar:vertical {
     border: 0px solid #c6c6c6;
     background: transparent;
-    width: 13px;
+    width: 4px;
     margin: 0px 0px 0px 0px;
 }
 QScrollBar:horizontal {
     border: 0px solid #c6c6c6;
     background: transparent;
-    height: 13px;
+    height: 0px;
     margin: 0px 0px 0px 0px;
 }
 QScrollBar::handle {
