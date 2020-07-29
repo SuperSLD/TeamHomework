@@ -74,11 +74,6 @@ ChatWidget::ChatWidget(QWebSocket *webSocket)
 
     this->setStyleSheet(style);
     this->setLayout(mainLayout);
-
-    addMessage("author",
-               "123456789076543212345678987654312345678009876323456789123456789076543212345678987654312345678009876323456789123456789076543212345678987654312345678009876323456789",
-               "00:00",
-               true);
 }
 
 /**
