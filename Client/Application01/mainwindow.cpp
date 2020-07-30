@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "mainwindow.h"
 #include "deskwidget.h"
 #include "property.h"
 #include <QJsonDocument>
@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(webSocket, SIGNAL(connected()), this, SLOT(onConnected()));
     connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
     connect(webSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+    connect(webSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)));
 
     QString style = "";
     QFile file(":/resc/qss/mainWindowStyle.css");
@@ -63,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Боковое меню
     QVBoxLayout *menuTopLayout = new QVBoxLayout;
-     QVBoxLayout *menuBottomLayout = new QVBoxLayout;
+    QVBoxLayout *menuBottomLayout = new QVBoxLayout;
     QVBoxLayout *menuMainLayout = new QVBoxLayout;
     QFrame *headitem = new QFrame;
     QVBoxLayout *headContaiter = new QVBoxLayout;
@@ -73,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QLabel *nameLabel = new QLabel;
     QLabel *lastnameLabel = new QLabel;
     QLabel *emailLabel = new QLabel;
+    onlineLabel = new QLabel("ofline");
 
     QPushButton *chatButton = new QPushButton("Сообщения");
     QPushButton *filesButton = new QPushButton("Файлы");
@@ -87,6 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lastnameLabel->setObjectName("lastname");
     emailLabel->setText(settings->value("email", "default").toString());
     emailLabel->setObjectName("email");
+    onlineLabel->setObjectName("onlineLabel");
 
     chatButton->setObjectName("menuButton");
     chatButton->setIcon(
@@ -109,9 +112,10 @@ MainWindow::MainWindow(QWidget *parent) :
     headitem->setObjectName("headFrame");
     headitem->setLayout(headContaiter);
     menuTopLayout->addWidget(headitem);
-    menuTopLayout->addWidget(nameLabel);
-    menuTopLayout->addWidget(lastnameLabel);
-    menuTopLayout->addWidget(emailLabel);
+    headContaiter->addWidget(nameLabel);
+    headContaiter->addWidget(lastnameLabel);
+    headContaiter->addWidget(emailLabel);
+    headContaiter->addWidget(onlineLabel);
     menuTopLayout->addWidget(chatButton);
     menuTopLayout->addWidget(deskButton);
     menuTopLayout->addWidget(filesButton);
@@ -150,6 +154,7 @@ MainWindow::~MainWindow(){
 
     delete chat;
     delete desk;
+    delete onlineLabel;
 }
 
 /**
@@ -218,6 +223,9 @@ void MainWindow::deskButtonClicked(){
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 void MainWindow::onConnected() {
+    onlineLabel->setText("online");
+    chat->clearChat();
+
     QJsonObject textObject;
     textObject["id"] = settings->value("id").toString();
     textObject["key"] = settings->value("password").toString();
@@ -236,9 +244,21 @@ void MainWindow::onConnected() {
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 void MainWindow::onDisconnected() {
-    /*ui->onlineLabel->setText("<html><head><head/><body><p><span class=\"name\" style=\"color:#FF5964;"
-                            " font-family:consolas;\">ofline</span></p></body></html>");
-    ui->label_4->setText("WebSocket не подключен");*/
+    onlineLabel->setText("ofline");
+    webSocket->abort();
+    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
+}
+
+/**
+ * @brief MainWindow::onError
+ *
+ * Обработка ошибок вебсокета и попытка переподключиться.
+ *
+ * @param error
+ * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
+ */
+void MainWindow::onError(QAbstractSocket::SocketError error) {
+    //webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
 }
 
 /**

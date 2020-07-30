@@ -250,9 +250,7 @@ void ChatWidget::splitMessage(QLabel *text) {
     QString message = text->text();
     int pixelsW = fm.width(message)*1.2;
 
-    qDebug() << pixelsW << " / " << this->maxMessageW*0.8 << endl;
     int lineCount = (int) (pixelsW / (this->maxMessageW*0.8)) + 1;
-    qDebug() << lineCount << endl;
     int symbolInLine = message.length()/lineCount;
     for (int i = 1; i < lineCount; i++) {
         if (message[i * symbolInLine] == " ") {
@@ -262,4 +260,36 @@ void ChatWidget::splitMessage(QLabel *text) {
         }
     }
     text->setText(message);
+}
+
+/**
+ * @brief ChatWidget::clearChat
+ *
+ * Отчистка чата от сообщений.
+ *
+ * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
+ */
+void ChatWidget::clearChat() {
+    clearLayout(messageLayout);
+}
+
+/**
+ * @brief ChatWidget::clearChat
+ *
+ * Удаление всеъ элементов из QLayout;
+ *
+ * @author ктовый чел со stackoverflow()
+ */
+void ChatWidget::clearLayout(QLayout *layout) {
+    QLayoutItem *item;
+    while((item = layout->takeAt(0))) {
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+           delete item->widget();
+        }
+        delete item;
+    }
 }

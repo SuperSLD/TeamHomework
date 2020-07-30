@@ -33,6 +33,7 @@ private slots:
     void moveScrollBarToBottom(int min, int max);
 
     void sendButtonClicked();
+    void clearLayout(QLayout *layout);
 
 protected:
 
@@ -41,5 +42,6 @@ public:
     ChatWidget(QWebSocket *webSocket);
     ~ChatWidget();
     void sendMessage();
+    void clearChat();
 
 };

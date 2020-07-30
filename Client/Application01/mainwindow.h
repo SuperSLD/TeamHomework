@@ -38,6 +38,7 @@ private slots:
     void onConnected();
     void onMessage(QString message);
     void onDisconnected();
+    void onError(QAbstractSocket::SocketError error);
 
     void keyPressEvent(QKeyEvent *event);
 
@@ -48,6 +49,7 @@ private:
 
     ChatWidget *chat;
     DeskWidget *desk;
+    QLabel *onlineLabel;
 
     QJsonObject m_currentJsonObject;
 
