@@ -1,3 +1,5 @@
+#include "messagemanager.h"
+
 #include <QLabel>
 #include <QLineEdit>
 #include <QScrollArea>
@@ -23,6 +25,7 @@ private:
     QSettings *settings;
     QScrollArea *scrollMessage;
     int maxMessageW;
+    MessageManager *messageManager;
 
     void addMessage(QString author,QString text,QString time,bool isThhisUser);
     void splitMessage(QLabel *text);
@@ -32,8 +35,7 @@ private slots:
     void onMessage(QString message);
     void moveScrollBarToBottom(int min, int max);
 
-    void sendButtonClicked();
-    void clearLayout(QLayout *layout);
+    void sendButtonClicked();   
 
 protected:
 
@@ -42,6 +44,5 @@ public:
     ChatWidget(QWebSocket *webSocket);
     ~ChatWidget();
     void sendMessage();
-    void clearChat();
 
 };

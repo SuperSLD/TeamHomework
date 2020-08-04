@@ -11,6 +11,8 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 
+#include <bits/exception.h>
+
 /**
  * @brief ChatWidget::ChatWidget
  *
@@ -25,6 +27,7 @@ ChatWidget::ChatWidget(QWebSocket *webSocket)
     connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
 
     settings = new QSettings("settings.ini", QSettings::IniFormat);
+    messageManager = new MessageManager();
 
     maxMessageW = this->width()*0.8;
 
@@ -74,6 +77,16 @@ ChatWidget::ChatWidget(QWebSocket *webSocket)
 
     this->setStyleSheet(style);
     this->setLayout(mainLayout);
+    QLinkedList<MessageModel*> messageList = this->messageManager->getLastMessages();
+    for (MessageModel* message: messageList) {
+        bool isThisUser = (settings->value("name", "default").toString()
+                           + " " + settings->value("lastname", "default").toString())
+                == message->getAuthor();
+        this->addMessage(message->getAuthor(),
+                         message->getContent(),
+                         message->getTime(),
+                         isThisUser);
+    }
 }
 
 /**
@@ -85,6 +98,7 @@ ChatWidget::~ChatWidget() {
     delete webSocket;
     delete messageLayout;
     delete messageLineEdit;
+    delete messageManager;
 
     delete settings;
     delete scrollMessage;
@@ -113,7 +127,7 @@ void ChatWidget::onMessage(QString message){
     }
 
     QString messasgeType = obj["type"].toString();
-
+    qDebug() << messasgeType << endl;
     if (messasgeType == "group_message") {
         //обработка сообщения группового чата.
         bool isThisUser = (settings->value("name", "default").toString()
@@ -124,6 +138,12 @@ void ChatWidget::onMessage(QString message){
                 obj["message"].toString(),
                 obj["time"].toString(),
                 isThisUser
+        );
+        this->messageManager->addMessage(
+                obj["message_type"].toString(),
+                obj["message"].toString(),
+                obj["author"].toString(),
+                obj["time"].toString()
         );
     }
 }
@@ -260,36 +280,4 @@ void ChatWidget::splitMessage(QLabel *text) {
         }
     }
     text->setText(message);
-}
-
-/**
- * @brief ChatWidget::clearChat
- *
- * Отчистка чата от сообщений.
- *
- * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
- */
-void ChatWidget::clearChat() {
-    clearLayout(messageLayout);
-}
-
-/**
- * @brief ChatWidget::clearChat
- *
- * Удаление всеъ элементов из QLayout;
- *
- * @author ктовый чел со stackoverflow()
- */
-void ChatWidget::clearLayout(QLayout *layout) {
-    QLayoutItem *item;
-    while((item = layout->takeAt(0))) {
-        if (item->layout()) {
-            clearLayout(item->layout());
-            delete item->layout();
-        }
-        if (item->widget()) {
-           delete item->widget();
-        }
-        delete item;
-    }
 }

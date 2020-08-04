@@ -25,14 +25,16 @@ SOURCES += \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    property.cpp
+    messagemanager.cpp \
+    messagemodel.cpp
 
 HEADERS += \
     chatwidget.h \
     deskwidget.h \
     loginwindow.h \
     mainwindow.h \
-    property.h
+    messagemanager.h \
+    messagemodel.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -42,3 +44,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     resc.qrc \
     resc.qrc
+

@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "deskwidget.h"
-#include "property.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QTime>
@@ -33,8 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent) {
 
     webSocket  = new QWebSocket();
-    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
-    //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
+
     connect(webSocket, SIGNAL(connected()), this, SLOT(onConnected()));
     connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
     connect(webSocket, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
@@ -145,6 +143,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
     this->setWindowIcon(QIcon(":/resc/resc/icon.png"));
     this->setWindowTitle("Сообщения");
+
+    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
+    //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
 }
 
 MainWindow::~MainWindow(){
@@ -224,7 +225,6 @@ void MainWindow::deskButtonClicked(){
  */
 void MainWindow::onConnected() {
     onlineLabel->setText("online");
-    chat->clearChat();
 
     QJsonObject textObject;
     textObject["id"] = settings->value("id").toString();
@@ -246,7 +246,7 @@ void MainWindow::onConnected() {
 void MainWindow::onDisconnected() {
     onlineLabel->setText("ofline");
     webSocket->abort();
-    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
+    //webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
 }
 
 /**
@@ -258,6 +258,7 @@ void MainWindow::onDisconnected() {
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
 void MainWindow::onError(QAbstractSocket::SocketError error) {
+    Q_UNUSED(error)
     //webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
 }
 
