@@ -88,7 +88,7 @@ public class ConnectionWebsocket {
                                     groups.add(group);
                                 }
                             }
-                            sendLastMessages(session, groupId);
+                            sendLastMessages(session, groupId, messageObject.getString("timeCode"));
                         }
                     }
                     System.out.println("create user");
@@ -142,11 +142,11 @@ public class ConnectionWebsocket {
      *
      * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
      */
-    private void sendLastMessages(Session session, int groupId) {
+    private void sendLastMessages(Session session, int groupId, String timeCode) {
         try {
             ResultSet rs = DBConnector.executeQuery(
                     "SELECT text_message, time_send, author, type FROM messages WHERE group_id=" + groupId
-                            + "  ORDER BY time_send"
+                            + " and time_send > '"+timeCode+"'  ORDER BY time_send"
             );
             while (rs.next()) {
                 JSONObject message = new JSONObject();

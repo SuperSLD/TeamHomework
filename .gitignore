@@ -1,5 +1,7 @@
 Server/TeamServer/.idea/
 Server/TeamServer/out/
+Server/TeamServer/classes/
+
 Client/Application01/Application01.pro.user
 Client/Application01/Application01.pro.user.9acc538
 Client/build-Application01-Desktop_Qt_5_12_4_MinGW_32_bit-Debug

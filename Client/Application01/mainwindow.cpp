@@ -144,8 +144,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowIcon(QIcon(":/resc/resc/icon.png"));
     this->setWindowTitle("Сообщения");
 
-    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
-    //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
+    //webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
+    webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
 }
 
 MainWindow::~MainWindow(){
@@ -231,6 +231,8 @@ void MainWindow::onConnected() {
     textObject["key"] = settings->value("password").toString();
     textObject["type"] = "connect_user";
     textObject["timeCode"] = settings->value("timeCode", "1976.07.29 23:18:26").toString();
+
+    qDebug() << "time code: " << settings->value("timeCode", "1976.07.29 23:18:26").toString() << endl;
 
     QJsonDocument doc(textObject);
     QString strJson(doc.toJson(QJsonDocument::Compact));
