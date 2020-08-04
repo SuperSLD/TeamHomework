@@ -230,6 +230,7 @@ void MainWindow::onConnected() {
     textObject["id"] = settings->value("id").toString();
     textObject["key"] = settings->value("password").toString();
     textObject["type"] = "connect_user";
+    textObject["timeCode"] = settings->value("timeCode", "1976.07.29 23:18:26").toString();
 
     QJsonDocument doc(textObject);
     QString strJson(doc.toJson(QJsonDocument::Compact));

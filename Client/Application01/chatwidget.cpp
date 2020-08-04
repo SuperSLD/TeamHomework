@@ -127,7 +127,8 @@ void ChatWidget::onMessage(QString message){
     }
 
     QString messasgeType = obj["type"].toString();
-    qDebug() << messasgeType << endl;
+    settings->setValue("timeCode", obj["time"].toString());
+    settings->sync();
     if (messasgeType == "group_message") {
         //обработка сообщения группового чата.
         bool isThisUser = (settings->value("name", "default").toString()
