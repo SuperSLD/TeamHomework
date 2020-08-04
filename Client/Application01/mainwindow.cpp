@@ -144,8 +144,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowIcon(QIcon(":/resc/resc/icon.png"));
     this->setWindowTitle("Сообщения");
 
-    //webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
-    webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
+    webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
+    //webSocket->open(QUrl(("ws://localhost:8080/TeamServer/connection")));
 }
 
 MainWindow::~MainWindow(){
