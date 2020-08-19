@@ -9,5 +9,6 @@
         <file>resc/user.png</file>
         <file>qss/chatStyle.css</file>
         <file>resc/send-white-18dp.svg</file>
+        <file>qss/deskStyle.css</file>
     </qresource>
 </RCC>
