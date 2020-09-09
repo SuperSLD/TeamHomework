@@ -165,7 +165,6 @@ MainWindow::~MainWindow(){
  *
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
-
 void MainWindow::exitButtonClicked() {
     settings->setValue("name", "");
     settings->setValue("lastname", "");
@@ -184,7 +183,6 @@ void MainWindow::exitButtonClicked() {
  *
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
-
 void MainWindow::filesButtonClicked() {
     mainContent->setCurrentIndex(2);
     this->setWindowTitle("Файлы");
@@ -197,7 +195,6 @@ void MainWindow::filesButtonClicked() {
  *
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
-
 void MainWindow::chatButtonClicked(){
     mainContent->setCurrentIndex(0);
     this->setWindowTitle("Сообщения");
@@ -210,7 +207,6 @@ void MainWindow::chatButtonClicked(){
  *
  * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
  */
-
 void MainWindow::deskButtonClicked(){
     mainContent->setCurrentIndex(1);
     this->setWindowTitle("Задачи");
@@ -248,7 +244,6 @@ void MainWindow::onConnected() {
  */
 void MainWindow::onDisconnected() {
     onlineLabel->setText("ofline");
-    webSocket->abort();
     //webSocket->open(QUrl(("ws://jutter.online/TeamServer/connection")));
 }
 
