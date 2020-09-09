@@ -8,7 +8,10 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSizePolicy>
+#include <QTextEdit>
 #include <QVBoxLayout>
+
+#include <bits/exception.h>
 
 /**
  * @brief ChatWidget::ChatWidget
@@ -24,6 +27,9 @@ ChatWidget::ChatWidget(QWebSocket *webSocket)
     connect(webSocket, SIGNAL(textMessageReceived(QString)), this, SLOT(onMessage(QString)));
 
     settings = new QSettings("settings.ini", QSettings::IniFormat);
+    messageManager = new MessageManager();
+
+    maxMessageW = this->width()*0.8;
 
     QString style = "";
     QFile file(":/resc/qss/chatStyle.css");
@@ -43,6 +49,7 @@ ChatWidget::ChatWidget(QWebSocket *webSocket)
     scrolContainer->setLayout(messageLayout);
     scrollMessage->setWidget(scrolContainer);
     scrollMessage->setWidgetResizable(true);
+    scrollMessage->horizontalScrollBar()->setEnabled(false);
     QScrollBar *scrollbar = scrollMessage->verticalScrollBar();
     connect(scrollbar, SIGNAL(rangeChanged(int,int)), this, SLOT(moveScrollBarToBottom(int, int)));
 
@@ -70,6 +77,16 @@ ChatWidget::ChatWidget(QWebSocket *webSocket)
 
     this->setStyleSheet(style);
     this->setLayout(mainLayout);
+    QLinkedList<MessageModel*> messageList = this->messageManager->getLastMessages();
+    for (MessageModel* message: messageList) {
+        bool isThisUser = (settings->value("name", "default").toString()
+                           + " " + settings->value("lastname", "default").toString())
+                == message->getAuthor();
+        this->addMessage(message->getAuthor(),
+                         message->getContent(),
+                         message->getTime(),
+                         isThisUser);
+    }
 }
 
 /**
@@ -81,6 +98,7 @@ ChatWidget::~ChatWidget() {
     delete webSocket;
     delete messageLayout;
     delete messageLineEdit;
+    delete messageManager;
 
     delete settings;
     delete scrollMessage;
@@ -109,7 +127,8 @@ void ChatWidget::onMessage(QString message){
     }
 
     QString messasgeType = obj["type"].toString();
-
+    settings->setValue("timeCode", obj["time"].toString());
+    settings->sync();
     if (messasgeType == "group_message") {
         //обработка сообщения группового чата.
         bool isThisUser = (settings->value("name", "default").toString()
@@ -120,6 +139,12 @@ void ChatWidget::onMessage(QString message){
                 obj["message"].toString(),
                 obj["time"].toString(),
                 isThisUser
+        );
+        this->messageManager->addMessage(
+                obj["message_type"].toString(),
+                obj["message"].toString(),
+                obj["author"].toString(),
+                obj["time"].toString()
         );
     }
 }
@@ -158,14 +183,22 @@ void ChatWidget::addMessage(QString author,
         timeLabel->setObjectName("time");
     }
 
-    QLabel *textLabel = new QLabel(text);
+    QLabel *textLabel = new QLabel;
     textLabel->setObjectName("text");
     timeLabel->setAlignment(Qt::AlignRight);
+    textLabel->setSizePolicy(QSizePolicy::Maximum,
+                             QSizePolicy::Maximum);
     messageContainerLayout->addWidget(textLabel);
     messageContainerLayout->addWidget(timeLabel);
 
     messageContainer->setLayout(messageContainerLayout);
+    messageContainer->setMaximumWidth(this->maxMessageW);
     messageLayout->addWidget(messageContainer);
+
+
+    textLabel->setText(text);
+    this->splitMessage(textLabel);
+
     this->messageLayout->addLayout(messageLayout);
 }
 
@@ -208,8 +241,44 @@ void ChatWidget::sendMessage() {
     }
 }
 
+/**
+ * @brief ChatWidget::moveScrollBarToBottom
+ *
+ * Прокрутка скролбара вниз при добавлении сообщения.
+ *
+ * @param min
+ * @param max
+ *
+ * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
+ */
 void ChatWidget::moveScrollBarToBottom(int min, int max) {
     Q_UNUSED(min);
     scrollMessage->verticalScrollBar()->setValue(max);
 }
 
+/**
+ * @brief ChatWidget::splitMessage
+ *
+ * Добавление переносов к сообщению.
+ *
+ * @param text лейбл в который необходимо добавить
+ * переходы на новую строку.
+ *
+ * @author Solyanoy Leonid (solyanoy.leonid@gmail.com)
+ */
+void ChatWidget::splitMessage(QLabel *text) {
+    QFontMetrics fm(text->font());
+    QString message = text->text();
+    int pixelsW = fm.width(message)*1.2;
+
+    int lineCount = (int) (pixelsW / (this->maxMessageW*0.8)) + 1;
+    int symbolInLine = message.length()/lineCount;
+    for (int i = 1; i < lineCount; i++) {
+        if (message[i * symbolInLine] == " ") {
+            message.insert(i * symbolInLine, "\n");
+        } else {
+            message.insert(i * symbolInLine, "-\n");
+        }
+    }
+    text->setText(message);
+}

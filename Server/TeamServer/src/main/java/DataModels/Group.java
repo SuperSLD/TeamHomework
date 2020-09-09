@@ -1,7 +1,9 @@
 package DataModels;
 
+import Classes.DBConnector;
+
 import javax.websocket.Session;
-import java.net.UnknownServiceException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -13,15 +15,35 @@ public class Group {
     private String name;
     private int id;
     public ArrayList<User> users;
+    public ArrayList<Task> taskList;
 
-    public Group(int id,String name) {
+    public Group(int id, String name) {
         this.name = name;
         this.id = id;
         this.users = new ArrayList<>();
+
+        this.taskList = new ArrayList<>();
+
+        try {
+            ResultSet rs = DBConnector.executeQuery("SELECT id, type, status, text_task, author FROM task_list" +
+                                                        "WHERE group_id = '"+this.id+"'");
+            while (rs.next()) {
+                Task task = new Task(
+                        Integer.parseInt(rs.getString("id")),
+                        rs.getString("status"),
+                        rs.getString("content"),
+                        rs.getString("author"),
+                        rs.getString("type")
+                );
+                taskList.add(task);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
-     * ОТправка группового сообщения каждому пользователю.
+     * Отправка группового сообщения каждому пользователю.
      * @param message текстовое сообщение.
      *
      * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)

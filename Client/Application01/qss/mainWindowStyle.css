@@ -2,7 +2,7 @@ QWidget#ui{
 }
 QFrame#headFrame {
     background-color:#10B4D0;
-    padding: 20px;
+    padding: 10px;
     border: none;
     border-bottom: 2px solid #16151D;
 }
@@ -12,19 +12,22 @@ QFrame#menuContainer {
 QStackedWidget#mainContent {
     background-color:#16151D;
 }
-QLabel#name,QLabel#lastname,QLabel#email {
+QLabel#name,QLabel#onlineLabel,QLabel#lastname,QLabel#email {
     color: white;
     font-size:12px;
     padding-left: 5px;
     padding-right: 5px;
+    font-style: bold;
 }
 QLabel#name {
     padding-top: 5px;
 }
 QLabel#email {
     padding-bottom: 5px;
-    border: none;
-    border-bottom: 1px solid #16151D;
+}
+QLabel#onlineLabel {
+    color: #68EFFF;
+    padding-bottom: 5px;
 }
 QPushButton#menuButton {
     color: white;

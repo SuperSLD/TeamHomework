@@ -1,3 +1,5 @@
+#include "messagemanager.h"
+
 #include <QLabel>
 #include <QLineEdit>
 #include <QScrollArea>
@@ -22,15 +24,18 @@ private:
     QLineEdit *messageLineEdit;
     QSettings *settings;
     QScrollArea *scrollMessage;
+    int maxMessageW;
+    MessageManager *messageManager;
 
     void addMessage(QString author,QString text,QString time,bool isThhisUser);
+    void splitMessage(QLabel *text);
 
 private slots:
 
     void onMessage(QString message);
     void moveScrollBarToBottom(int min, int max);
 
-    void sendButtonClicked();
+    void sendButtonClicked();   
 
 protected:
 

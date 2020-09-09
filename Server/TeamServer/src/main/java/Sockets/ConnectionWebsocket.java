@@ -3,13 +3,17 @@ package Sockets;
 import Classes.DBConnector;
 import DataModels.Group;
 import DataModels.User;
+import Sockets.MessageReply.MessageReply;
+import Sockets.MessageReply.ReplyType;
 import org.json.JSONObject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.File;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Вебсокет для обработки потока данных от
@@ -21,8 +25,48 @@ import java.util.Calendar;
 public class ConnectionWebsocket {
     private static ArrayList<Group> groups = new ArrayList<>();
 
+    private static HashMap<String, MessageReply> replies = new HashMap<>();
+    private static boolean isInit = false;
+
+    /**
+     * Инициализация сокета.
+     */
+    private static void init() {
+        if (!isInit) {
+            System.out.println("INITIALISATION WEBSOCKET STATIC OBJECT");
+            isInit = true;
+            File file = new File(
+                    ConnectionWebsocket.class.getProtectionDomain().getCodeSource().getLocation().getPath()
+                    + "/Sockets/MessageReply"
+            );
+            for(String fileName : file.list()) {
+                System.out.println("Check class -> " + fileName);
+                try {
+                    Class<?> classData = Class.forName("Sockets.MessageReply." + fileName.replaceAll("\\.class", ""));
+                    ReplyType replyType = classData.getAnnotation(ReplyType.class);
+                    if (replyType != null) {
+                        MessageReply reply = (MessageReply) classData.newInstance();
+                        replies.put(replyType.messageType(), reply);
+                        System.out.println("    .annotation load [" + replyType.messageType() + "]");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            System.out.println("MessageReply open [" + file.isDirectory() + "]");
+        }
+    }
+
+    /**
+     * Поиск классов MessageReply.
+     */
+    private static void findClassList(File file) {
+
+    }
+
     @OnOpen
     public void onOpen(Session session) {
+        init();
         System.out.println("onOpen::" + session.getId());
     }
 
@@ -44,70 +88,10 @@ public class ConnectionWebsocket {
     public void onMessage(String message, Session session) {
         try {
             JSONObject messageObject = new JSONObject(message);
-            switch (messageObject.getString("type")) {
-                case "connect_user":
-                    int user_id = Integer.parseInt(messageObject.getString("id"));
-                    String key = messageObject.getString("key");
+            MessageReply messageReply = replies.get(messageObject.getString("type"));
 
-                    ResultSet rs = DBConnector.executeQuery(
-                            "SELECT password, name, lastname, email FROM users WHERE id=" + user_id);
-                    //Проверка пользователя.
-                    if (rs.next() && rs.getString("password").equals(key)) {
-                        User user = new User(
-                                user_id,
-                                rs.getString("name"),
-                                rs.getString("lastname"),
-                                rs.getString("email"),
-                                key
-                        );
-                        user.setSession(session);
-                        //Определение группы пользователя
-                        rs = DBConnector.executeQuery(
-                                "SELECT group_id FROM user_group WHERE user_id=" + user_id);
-                        if (rs.next()) {
-                            //Поиск группы пользователя
-                            int groupId = Integer.parseInt(rs.getString("group_id"));
-                            boolean newGroup = true;
-                            for(Group group : groups) {
-                                if (group.getId() == groupId) {
-                                    newGroup = false;
-                                    group.users.add(user);
-                                    break;
-                                }
-                            }
-                            //Создание группы
-                            if (newGroup) {
-                                rs = DBConnector.executeQuery(
-                                        "SELECT name FROM team_groups WHERE id=" + groupId);
-                                if (rs.next()) {
-                                    Group group = new Group(
-                                            groupId,
-                                            rs.getString("name")
-                                    );
-                                    group.users.add(user);
-                                    groups.add(group);
-                                }
-                            }
-                            sendLastMessages(session, groupId);
-                        }
-                    }
-                    System.out.println("create user");
-                    break;
-                case "group_message":
-                    Group currentGroup = groupByUserSession(session);
-                    if (currentGroup != null) {
-                        User user = currentGroup.findUserBySession(session);
-
-                        String date = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Calendar.getInstance().getTime());
-
-                        DBConnector.executeUpdate("INSERT messages VALUE(0, " + currentGroup.getId() + ", "
-                                + user.getId() + ", '" + messageObject.getString("message_type") + "', '"
-                                + messageObject.getString("message") + "', '"
-                                + date + "', '" + messageObject.getString("author") + "')");
-
-                        currentGroup.sendGroupMessage(new JSONObject(message).put("time", date).toString());
-                    }
-                    break;
+            if (messageReply != null) {
+                messageReply.reply(this, message, session);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -126,7 +110,7 @@ public class ConnectionWebsocket {
      *
      * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
      */
-    private Group groupByUserSession(Session session) {
+    public static Group groupByUserSession(Session session) {
         for (Group group : groups) {
             if (group.findUserBySession(session) != null) {
                 return group;
@@ -142,11 +126,11 @@ public class ConnectionWebsocket {
      *
      * @author Solyanoy Leonid(solyanoy.leonid@gmail.com)
      */
-    private void sendLastMessages(Session session, int groupId) {
+    public static void sendLastMessages(Session session, int groupId, String timeCode) {
         try {
             ResultSet rs = DBConnector.executeQuery(
                     "SELECT text_message, time_send, author, type FROM messages WHERE group_id=" + groupId
-                            + "  ORDER BY time_send"
+                            + " and time_send > '"+timeCode+"'  ORDER BY time_send"
             );
             while (rs.next()) {
                 JSONObject message = new JSONObject();
@@ -161,5 +145,13 @@ public class ConnectionWebsocket {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * Получение текущего списка активных групп.
+     * @return список групп.
+     */
+    public static ArrayList<Group> getGroups() {
+        return groups;
     }
 }

@@ -55,6 +55,7 @@ public class AuthorisationServlet extends HttpServlet {
                     jsonObject.put("password", encryptedPassword);
                     System.out.println("user connect: " + URLDecoder.decode(rs.getString("name"), "WINDOWS-1251") + " | "
                                     + rs.getString("lastname"));
+                    
                 } else {
                     jsonObject.put("errcode", "2");
                     jsonObject.put("error_message", "invalid password");

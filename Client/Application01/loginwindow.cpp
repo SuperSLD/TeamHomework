@@ -1,5 +1,4 @@
 #include "loginwindow.h"
-#include "property.h"
 
 #include <QMessageBox>
 
